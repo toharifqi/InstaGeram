@@ -1,0 +1,13 @@
+package com.toharifqi.instageram.core.local
+
+import android.content.Context
+import com.toharifqi.instageram.core.SessionManager
+import com.toharifqi.instageram.core.SessionManagerImpl
+import dagger.Module
+import dagger.Provides
+
+@Module
+object LocalModule {
+    @Provides
+    fun provideSessionManager(context: Context): SessionManager = SessionManagerImpl(context)
+}

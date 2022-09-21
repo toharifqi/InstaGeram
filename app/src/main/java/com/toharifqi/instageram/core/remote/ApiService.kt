@@ -1,4 +1,4 @@
-package com.toharifqi.instageram.core
+package com.toharifqi.instageram.core.remote
 
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

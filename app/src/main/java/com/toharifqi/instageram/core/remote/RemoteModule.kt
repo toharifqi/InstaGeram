@@ -1,6 +1,5 @@
-package com.toharifqi.instageram.core
+package com.toharifqi.instageram.core.remote
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -9,10 +8,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-object CoreModule {
-
-    @Provides
-    fun provideSessionManager(context: Context): SessionManager = SessionManagerImpl(context)
+object RemoteModule {
+    private const val BASE_URL = "https://story-api.dicoding.dev/v1"
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
