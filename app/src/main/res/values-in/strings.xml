@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">InstaGeram</string>
+
+    <string name="button_login">Masuk</string>
+    <string name="button_disabled">Koreksi masukan!</string>
+    <string name="edit_text_username_hint">Masukkan username Anda!</string>
+    <string name="error_text_password">Password tidak boleh kurang dari 6 karakter!</string>
+</resources>

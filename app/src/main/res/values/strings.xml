@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">InstaGeram</string>
+
+    <string name="button_login">Log in</string>
+    <string name="button_disabled">Correct the input!</string>
+    <string name="edit_text_username_hint">Enter your username!</string>
+    <string name="error_text_password">Password can\'t be less than 6 characters!</string>
 </resources>

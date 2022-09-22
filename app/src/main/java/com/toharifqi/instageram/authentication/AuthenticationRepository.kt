@@ -16,6 +16,7 @@ interface AuthenticationRepository {
     fun loginUser(email: String, pass: String): Flow<ResultLoad<LoginResponse>>
     fun saveToken(token: String)
     fun getToken(): String?
+    fun logout()
 }
 
 class AuthenticationRepositoryImpl(
@@ -50,4 +51,5 @@ class AuthenticationRepositoryImpl(
     }
 
     override fun getToken(): String? = sessionManager.getToken()
+    override fun logout() = sessionManager.clearSession()
 }

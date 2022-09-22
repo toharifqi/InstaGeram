@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface SessionManager {
     fun getToken(): String?
     fun saveToken(token: String)
+    fun clearSession()
 }
 
 class SessionManagerImpl(context: Context) : SessionManager {
@@ -24,6 +25,13 @@ class SessionManagerImpl(context: Context) : SessionManager {
     override fun saveToken(token: String) {
         with(editor) {
             putString(KEY_TOKEN, token)
+            commit()
+        }
+    }
+
+    override fun clearSession() {
+        with(editor) {
+            clear()
             commit()
         }
     }

@@ -14,13 +14,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InstaGeram">
         <activity
-            android:name=".StoryDetailActivity"
+            android:name=".authentication.RegisterActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".storydetail.StoryDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateStoryActivity"
+            android:name=".createstory.CreateStoryActivity"
             android:exported="false" />
         <activity
-            android:name=".StoryListActivity"
+            android:name=".storylist.StoryListActivity"
             android:exported="false" />
         <activity
             android:name=".authentication.LoginActivity"
