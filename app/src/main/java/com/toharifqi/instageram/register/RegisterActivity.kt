@@ -1,4 +1,4 @@
-package com.toharifqi.instageram.authentication
+package com.toharifqi.instageram.register
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

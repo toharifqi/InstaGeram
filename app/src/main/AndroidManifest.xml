@@ -14,12 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InstaGeram">
         <activity
-            android:name=".authentication.RegisterActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:name=".register.RegisterActivity"
+            android:exported="false"/>
         <activity
             android:name=".storydetail.StoryDetailActivity"
             android:exported="false" />
@@ -30,7 +26,7 @@
             android:name=".storylist.StoryListActivity"
             android:exported="false" />
         <activity
-            android:name=".authentication.LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

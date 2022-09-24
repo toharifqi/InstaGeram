@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 object RemoteModule {
-    private const val BASE_URL = "https://story-api.dicoding.dev/v1"
+    private const val BASE_URL = "https://story-api.dicoding.dev/v1/"
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
@@ -28,7 +28,7 @@ object RemoteModule {
         client: OkHttpClient
     ): ApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://story-api.dicoding.dev/v1")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

@@ -1,4 +1,4 @@
-package com.toharifqi.instageram.authentication
+package com.toharifqi.instageram.login
 
 import com.toharifqi.instageram.core.ResultLoad
 import com.toharifqi.instageram.core.remote.ApiService
@@ -6,15 +6,16 @@ import com.toharifqi.instageram.core.SessionManager
 import com.toharifqi.instageram.core.remote.LoginResponse
 import com.toharifqi.instageram.core.remote.RegisterResponse
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.lang.Exception
 
 interface AuthenticationRepository {
-    fun registerUser(name: String, email: String, pass: String): Flow<ResultLoad<RegisterResponse>>
-    fun loginUser(email: String, pass: String): Flow<ResultLoad<LoginResponse>>
-    fun saveToken(token: String)
+    suspend fun registerUser(name: String, email: String, pass: String): Flow<ResultLoad<RegisterResponse>>
+    suspend fun loginUser(email: String, pass: String): Flow<ResultLoad<LoginResponse>>
+    fun saveUser(name: String, token: String)
     fun getToken(): String?
     fun logout()
 }
@@ -24,7 +25,7 @@ class AuthenticationRepositoryImpl(
     private val apiService: ApiService,
     private val dispatcher: CoroutineDispatcher
 ) : AuthenticationRepository {
-    override fun registerUser(
+    override suspend fun registerUser(
         name: String,
         email: String,
         pass: String
@@ -37,17 +38,19 @@ class AuthenticationRepositoryImpl(
         }
     }.flowOn(dispatcher)
 
-    override fun loginUser(email: String, pass: String): Flow<ResultLoad<LoginResponse>> = flow {
+    override suspend fun loginUser(email: String, pass: String): Flow<ResultLoad<LoginResponse>> = flow {
         try {
             val response = apiService.login(email, pass)
-            emit(ResultLoad.Success(response))
+            if (response.error){
+                emit(ResultLoad.Error(response.message))
+            } else emit(ResultLoad.Success(response))
         } catch (e: Exception) {
             emit(ResultLoad.Error(e.message))
         }
-    }
+    }.flowOn(dispatcher)
 
-    override fun saveToken(token: String) {
-        sessionManager.saveToken(token)
+    override fun saveUser(name: String, token: String) {
+        sessionManager.saveToken(name, token)
     }
 
     override fun getToken(): String? = sessionManager.getToken()

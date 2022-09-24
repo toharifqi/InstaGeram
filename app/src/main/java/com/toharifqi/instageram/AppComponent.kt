@@ -1,9 +1,10 @@
 package com.toharifqi.instageram
 
 import android.content.Context
-import com.toharifqi.instageram.authentication.AuthModule
+import com.toharifqi.instageram.login.LoginModule
 import com.toharifqi.instageram.core.local.LocalModule
 import com.toharifqi.instageram.core.remote.RemoteModule
+import com.toharifqi.instageram.login.LoginActivity
 import com.toharifqi.instageram.storylist.StoryListModule
 import dagger.BindsInstance
 import dagger.Component
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        AuthModule::class,
+        LoginModule::class,
         LocalModule::class,
         RemoteModule::class,
         StoryListModule::class
@@ -23,4 +24,6 @@ interface AppComponent {
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
+
+    fun inject(loginActivity: LoginActivity)
 }
