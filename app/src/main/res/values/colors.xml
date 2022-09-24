@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#05070D</color>
     <color name="gray">#e4e5e4</color>
+    <color name="gray_dark">#8B8B8B</color>
     <color name="white">#FFFFFFFF</color>
     
     <color name="yello_primary">#f8da4c</color>

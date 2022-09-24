@@ -13,6 +13,7 @@ class InstaGeramButton : AppCompatButton {
 
     private lateinit var enabledBackground: Drawable
     private lateinit var disabledBackground: Drawable
+    private lateinit var currentText: String
     private var txtColorEnabled: Int = 0
     private var txtColorDisabled: Int = 0
 
@@ -31,7 +32,7 @@ class InstaGeramButton : AppCompatButton {
         gravity = Gravity.CENTER
 
         if (isEnabled) {
-            text = this.text
+            text = currentText
             setTextColor(txtColorEnabled)
         } else {
             text = context.getString(R.string.button_disabled)
@@ -40,8 +41,9 @@ class InstaGeramButton : AppCompatButton {
     }
 
     private fun init() {
-        txtColorEnabled = ContextCompat.getColor(context, android.R.color.background_light)
-        txtColorDisabled = ContextCompat.getColor(context, R.color.white)
+        currentText = this.text.toString()
+        txtColorEnabled = ContextCompat.getColor(context, R.color.black)
+        txtColorDisabled = ContextCompat.getColor(context, R.color.gray_dark)
         enabledBackground = ContextCompat.getDrawable(context, R.drawable.bg_button) as Drawable
         disabledBackground = ContextCompat.getDrawable(context, R.drawable.bg_button_disabled) as Drawable
     }

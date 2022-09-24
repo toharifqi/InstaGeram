@@ -15,59 +15,74 @@ import com.toharifqi.instageram.R
 class InstaGeramEditText : AppCompatEditText, View.OnTouchListener {
     private lateinit var clearButtonImage: Drawable
 
-    constructor(context: Context) : super(context) { init() }
+    constructor(context: Context) : super(context) {
+        init()
+    }
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) { init() }
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init()
+    }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { init() }
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context, attrs, defStyleAttr
+    ) {
+        init()
+    }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        hint = context.getString(R.string.edit_text_username_hint)
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 
     private fun init() {
-        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
+        clearButtonImage =
+            ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
         setOnTouchListener(this)
+        val inputType = this.inputType
 
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (s.count() < 6) {
-                    showError()
-                }
+
+                if (inputType == PASSWORD_TYPE && s.count() < 6) showPasswordError()
+                else if (s.toString().isEmpty()) showEmptyError()
+
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
             }
+
             override fun afterTextChanged(s: Editable) {}
         })
     }
 
-    private fun showError() {
+    private fun showPasswordError() {
         val errorMessage = context.getString(R.string.error_text_password)
-        setError(errorMessage)
+        error = errorMessage
+    }
+
+    private fun showEmptyError() {
+        val errorMessage = context.getString(R.string.error_text_empty)
+        error = errorMessage
     }
 
     private fun showClearButton() {
         setButtonDrawables(endOfTheText = clearButtonImage)
     }
+
     private fun hideClearButton() {
         setButtonDrawables()
     }
 
     private fun setButtonDrawables(
         startOfTheText: Drawable? = null,
-        topOfTheText:Drawable? = null,
-        endOfTheText:Drawable? = null,
+        topOfTheText: Drawable? = null,
+        endOfTheText: Drawable? = null,
         bottomOfTheText: Drawable? = null
-    ){
+    ) {
         setCompoundDrawablesWithIntrinsicBounds(
-            startOfTheText,
-            topOfTheText,
-            endOfTheText,
-            bottomOfTheText
+            startOfTheText, topOfTheText, endOfTheText, bottomOfTheText
         )
     }
+
     override fun onTouch(v: View?, event: MotionEvent): Boolean {
         if (compoundDrawables[2] != null) {
             val clearButtonStart: Float
@@ -87,22 +102,28 @@ class InstaGeramEditText : AppCompatEditText, View.OnTouchListener {
             if (isClearButtonClicked) {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
+                        clearButtonImage = ContextCompat.getDrawable(
+                            context, R.drawable.ic_baseline_close_24
+                        ) as Drawable
                         showClearButton()
                         return true
                     }
-                    MotionEvent.ACTION_UP -> {
-                        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
+                    MotionEvent.ACTION_UP   -> {
+                        clearButtonImage = ContextCompat.getDrawable(
+                            context, R.drawable.ic_baseline_close_24
+                        ) as Drawable
                         when {
                             text != null -> text?.clear()
                         }
                         hideClearButton()
                         return true
                     }
-                    else -> return false
+                    else                    -> return false
                 }
             } else return false
         }
         return false
     }
 }
+
+private const val PASSWORD_TYPE = 0x00000081

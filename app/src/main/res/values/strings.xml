@@ -3,6 +3,19 @@
 
     <string name="button_login">Log in</string>
     <string name="button_disabled">Correct the input!</string>
-    <string name="edit_text_username_hint">Enter your username!</string>
+    <string name="edit_text_username_hint">Enter your email!</string>
+    <string name="edit_text_password_hint">Enter your password!</string>
     <string name="error_text_password">Password can\'t be less than 6 characters!</string>
+    <string name="error_text_empty">Input can\'t be empty!</string>
+    <string name="text_go_to_register">Do not have account yet? <b><u>Register now!</u></b></string>
+
+    <string name="text_login_desc_1">Number #99 parody app for instagram with basic
+        features. Swipe left…</string>
+    <string name="text_login_desc_2">Get some random photos and pictures from random people
+    who you don\'t know about.</string>
+    <string name="text_login_desc_3">Share your photos and pictures to others though simple
+    steps.</string>
+    <string name="text_login_desc_4">That\'s all, don\'t expect more from this app. That\'s
+    why, download the real Instragram now!</string>
+
 </resources>
