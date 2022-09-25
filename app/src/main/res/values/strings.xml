@@ -2,12 +2,15 @@
     <string name="app_name">InstaGeram</string>
 
     <string name="button_login">Log in</string>
+    <string name="button_register">Register</string>
     <string name="button_disabled">Correct the input!</string>
-    <string name="edit_text_username_hint">Enter your email!</string>
+    <string name="edit_text_name_hint">Enter your name!</string>
+    <string name="edit_text_email_hint">Enter your email!</string>
     <string name="edit_text_password_hint">Enter your password!</string>
     <string name="error_text_password">Password can\'t be less than 6 characters!</string>
     <string name="error_text_empty">Input can\'t be empty!</string>
     <string name="text_go_to_register">Do not have account yet? <b><u>Register now!</u></b></string>
+    <string name="text_go_to_login">Already have an account? <b><u>Login now!</u></b></string>
 
     <string name="text_login_desc_1">Number #99 parody app for instagram with basic
         features. Swipe left…</string>
@@ -17,5 +20,9 @@
     steps.</string>
     <string name="text_login_desc_4">That\'s all, don\'t expect more from this app. That\'s
     why, download the real Instragram now!</string>
+
+    <string name="text_toast_register_first">Please register first!</string>
+    <string name="text_toast_user_created">User created, please login!</string>
+    <string name="text_toast_welcome">Welcome bruh!</string>
 
 </resources>

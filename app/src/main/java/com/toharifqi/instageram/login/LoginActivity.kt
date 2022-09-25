@@ -5,18 +5,24 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.toharifqi.instageram.AppComponent
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import com.toharifqi.instageram.BaseApplication
+import com.toharifqi.instageram.R
 import com.toharifqi.instageram.common.ViewModelFactory
-import com.toharifqi.instageram.core.ResultLoad
+import com.toharifqi.instageram.core.ResultLoad.Error
+import com.toharifqi.instageram.core.ResultLoad.Success
 import com.toharifqi.instageram.customview.InstaGeramEditText
 import com.toharifqi.instageram.databinding.ActivityLoginBinding
 import com.toharifqi.instageram.register.RegisterActivity
+import com.toharifqi.instageram.storylist.StoryListActivity
+import com.toharifqi.instageram.storylist.StoryListActivity.Companion.TOKEN_EXTRA
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
@@ -34,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.loginButton.isEnabled = false
 
+        viewModel.checkLoginSession()
         observeViewModel()
         setupOnClickListener()
         setupFullScreen()
@@ -42,32 +49,85 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         with(viewModel) {
+            token.observe(this@LoginActivity) { token ->
+                if (token != null) {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        getString(R.string.text_toast_welcome),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    goToStoryListActivity(token)
+                }
+            }
             loginResult.observe(this@LoginActivity) { loginResult ->
                 when (loginResult) {
-                    is ResultLoad.Success -> {
+                    is Success -> {
+                        binding.progressCircular.visibility = View.GONE
                         val loginResponse = loginResult.data?.loginResult
-                        loginResponse?.let { viewModel.saveUser(it.name, it.token) }
+                        loginResponse?.let {
+                            saveUser(it.name, it.token)
+                            goToStoryListActivity(it.token)
+                        }
 
-                        val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-                        startActivity(intent)
-                        Toast.makeText(this@LoginActivity, "Berhasil Login!", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(
+                            this@LoginActivity,
+                            getString(R.string.text_toast_welcome),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                    is ResultLoad.Error   -> {
-                        Toast.makeText(this@LoginActivity, loginResult.message, Toast.LENGTH_SHORT).show()
+                    is Error   -> {
+                        binding.progressCircular.visibility = View.GONE
+                        var errorMessage = loginResult.message
+                        if (errorMessage.toString().contains("401")) {
+                            errorMessage = getString(R.string.text_toast_register_first)
+
+                            Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_SHORT)
+                                .show()
+                            goToRegisterActivity()
+                        }
+                        Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
 
+    private fun goToRegisterActivity() {
+        val optionsCompat: ActivityOptionsCompat =
+            with(binding) {
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this@LoginActivity,
+
+                    Pair(mainBg, "main_bg"),
+                    Pair(logo, "logo"),
+                    Pair(appTitle, "app_title"),
+                    Pair(emailEditTxt, "email_edit_txt"),
+                    Pair(passwordEditTxt, "password_edit_txt"),
+                    Pair(loginButton, "login_button"),
+                    Pair(registerText, "register_txt")
+                )
+            }
+
+        val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+        startActivity(intent, optionsCompat.toBundle())
+    }
+
+    private fun goToStoryListActivity(token: String) {
+        Intent(this@LoginActivity, StoryListActivity::class.java).run {
+            putExtra(TOKEN_EXTRA, token)
+            startActivity(this)
+        }
+    }
+
     private fun setupOnClickListener() {
         with(binding) {
             loginButton.setOnClickListener {
+                progressCircular.visibility = View.VISIBLE
                 val email = emailEditTxt.text.toString()
                 val pass = passwordEditTxt.text.toString()
                 viewModel.loginUser(email, pass)
             }
+            registerText.setOnClickListener { goToRegisterActivity() }
         }
     }
 

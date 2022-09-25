@@ -1,6 +1,5 @@
 package com.toharifqi.instageram.login
 
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.toharifqi.instageram.common.ViewModelFactory
 import com.toharifqi.instageram.common.factory
 import com.toharifqi.instageram.core.SessionManager

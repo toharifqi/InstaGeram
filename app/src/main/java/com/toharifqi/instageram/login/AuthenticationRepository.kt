@@ -32,7 +32,9 @@ class AuthenticationRepositoryImpl(
     ): Flow<ResultLoad<RegisterResponse>> = flow {
         try {
             val response = apiService.register(name, email, pass)
-            emit(ResultLoad.Success(response))
+            if (response.error) {
+                emit(ResultLoad.Error(response.message))
+            } else emit(ResultLoad.Success(response))
         } catch (e: Exception) {
             emit(ResultLoad.Error(e.message.toString()))
         }
@@ -41,7 +43,7 @@ class AuthenticationRepositoryImpl(
     override suspend fun loginUser(email: String, pass: String): Flow<ResultLoad<LoginResponse>> = flow {
         try {
             val response = apiService.login(email, pass)
-            if (response.error){
+            if (response.error) {
                 emit(ResultLoad.Error(response.message))
             } else emit(ResultLoad.Success(response))
         } catch (e: Exception) {

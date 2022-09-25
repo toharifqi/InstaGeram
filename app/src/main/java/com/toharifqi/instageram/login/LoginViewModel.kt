@@ -13,6 +13,10 @@ class LoginViewModel(private val repository: AuthenticationRepository) : ViewMod
         get() = mutableLoginResult
     private val mutableLoginResult = MutableLiveData<ResultLoad<LoginResponse>>()
 
+    val token: LiveData<String?>
+        get() = mutableToken
+    private val mutableToken = MutableLiveData<String?>()
+
     fun loginUser(email: String, pass: String) {
         viewModelScope.launch {
             repository.loginUser(email, pass).collect {
@@ -24,6 +28,12 @@ class LoginViewModel(private val repository: AuthenticationRepository) : ViewMod
     fun saveUser(name: String, token: String) {
         viewModelScope.launch {
             repository.saveUser(name, token)
+        }
+    }
+
+    fun checkLoginSession() {
+        viewModelScope.launch {
+            mutableToken.value = repository.getToken()
         }
     }
 }

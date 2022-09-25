@@ -6,4 +6,114 @@
     android:layout_height="match_parent"
     tools:context=".register.RegisterActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/name_edit_txt"
+        app:layout_constraintBottom_toBottomOf="@id/password_edit_txt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <View
+        android:id="@+id/main_bg"
+        android:transitionName="main_bg"
+        android:layout_width="match_parent"
+        android:layout_height="800dp"
+        android:layout_marginBottom="500dp"
+        android:background="@drawable/authentication_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:transitionName="logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="@id/main_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38"
+        app:srcCompat="@drawable/main_logo" />
+
+    <TextView
+        android:id="@+id/app_title"
+        android:transitionName="app_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <com.toharifqi.instageram.customview.InstaGeramEditText
+        android:id="@+id/name_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="48dp"
+        android:hint="@string/edit_text_name_hint"
+        android:inputType="text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_bg" />
+
+    <com.toharifqi.instageram.customview.InstaGeramEditText
+        android:id="@+id/email_edit_txt"
+        android:transitionName="email_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/edit_text_email_hint"
+        android:inputType="textEmailAddress"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_edit_txt" />
+
+    <com.toharifqi.instageram.customview.InstaGeramEditText
+        android:id="@+id/password_edit_txt"
+        android:transitionName="password_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/edit_text_password_hint"
+        android:inputType="textPassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_edit_txt" />
+
+    <com.toharifqi.instageram.customview.InstaGeramButton
+        android:id="@+id/register_button"
+        android:transitionName="login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginHorizontal="16dp"
+        android:text="@string/button_register"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password_edit_txt" />
+
+    <TextView
+        android:id="@+id/login_text"
+        android:transitionName="register_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/text_go_to_login"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

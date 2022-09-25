@@ -3,12 +3,15 @@
     <string name="app_name">InstaGeram</string>
 
     <string name="button_login">Masuk</string>
+    <string name="button_register">Daftarkan akun</string>
     <string name="button_disabled">Koreksi masukan!</string>
-    <string name="edit_text_username_hint">Masukkan email Anda!</string>
+    <string name="edit_text_name_hint">Masukkan nama Anda!</string>
+    <string name="edit_text_email_hint">Masukkan email Anda!</string>
     <string name="edit_text_password_hint">Masukkan password Anda!</string>
     <string name="error_text_password">Password tidak boleh kurang dari 6 karakter!</string>
     <string name="error_text_empty">Masukan tidak boleh kosong!</string>
     <string name="text_go_to_register">Belum punya akun? <b><u>Daftar sekarang!</u></b> </string>
+    <string name="text_go_to_login">Sudah punya akun? <b><u>Masuk sekarang!</u></b></string>
 
     <string name="text_login_desc_1">Aplikasi parody Instagram nomor #99 yang pernah
         dibuat. Geser ke kiri…</string>
@@ -17,4 +20,9 @@
     <string name="text_login_desc_3">Bagikan foto Anda dengan cara yang sangat simpel.</string>
     <string name="text_login_desc_4">Itu aja, jangan berharap lebih dari app ini. Silahkan
         download Instagram yang asli!</string>
+
+    <string name="text_toast_register_first">Silahkan daftar dulu!</string>
+    <string name="text_toast_user_created">Akun berhasil dibuat, silahkan masuk!</string>
+    <string name="text_toast_welcome">Selamat datang!</string>
+
 </resources>

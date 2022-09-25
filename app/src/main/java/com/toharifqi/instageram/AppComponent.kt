@@ -5,6 +5,8 @@ import com.toharifqi.instageram.login.LoginModule
 import com.toharifqi.instageram.core.local.LocalModule
 import com.toharifqi.instageram.core.remote.RemoteModule
 import com.toharifqi.instageram.login.LoginActivity
+import com.toharifqi.instageram.register.RegisterActivity
+import com.toharifqi.instageram.register.RegisterModule
 import com.toharifqi.instageram.storylist.StoryListModule
 import dagger.BindsInstance
 import dagger.Component
@@ -15,6 +17,7 @@ import javax.inject.Singleton
     modules = [
         LoginModule::class,
         LocalModule::class,
+        RegisterModule::class,
         RemoteModule::class,
         StoryListModule::class
     ]
@@ -26,4 +29,5 @@ interface AppComponent {
     }
 
     fun inject(loginActivity: LoginActivity)
+    fun inject(registerActivity: RegisterActivity)
 }
