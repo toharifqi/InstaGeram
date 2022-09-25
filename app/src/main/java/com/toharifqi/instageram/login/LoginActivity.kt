@@ -22,7 +22,6 @@ import com.toharifqi.instageram.customview.InstaGeramEditText
 import com.toharifqi.instageram.databinding.ActivityLoginBinding
 import com.toharifqi.instageram.register.RegisterActivity
 import com.toharifqi.instageram.storylist.StoryListActivity
-import com.toharifqi.instageram.storylist.StoryListActivity.Companion.TOKEN_EXTRA
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
@@ -49,14 +48,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            token.observe(this@LoginActivity) { token ->
-                if (token != null) {
+            isLoggedIn.observe(this@LoginActivity) { isLoggedIn ->
+                if (isLoggedIn) {
                     Toast.makeText(
                         this@LoginActivity,
                         getString(R.string.text_toast_welcome),
                         Toast.LENGTH_SHORT
                     ).show()
-                    goToStoryListActivity(token)
+                    goToStoryListActivity()
                 }
             }
             loginResult.observe(this@LoginActivity) { loginResult ->
@@ -66,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                         val loginResponse = loginResult.data?.loginResult
                         loginResponse?.let {
                             saveUser(it.name, it.token)
-                            goToStoryListActivity(it.token)
+                            goToStoryListActivity()
                         }
 
                         Toast.makeText(
@@ -112,9 +111,8 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent, optionsCompat.toBundle())
     }
 
-    private fun goToStoryListActivity(token: String) {
+    private fun goToStoryListActivity() {
         Intent(this@LoginActivity, StoryListActivity::class.java).run {
-            putExtra(TOKEN_EXTRA, token)
             startActivity(this)
         }
     }

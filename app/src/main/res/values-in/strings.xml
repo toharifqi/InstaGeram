@@ -25,4 +25,9 @@
     <string name="text_toast_user_created">Akun berhasil dibuat, silahkan masuk!</string>
     <string name="text_toast_welcome">Selamat datang!</string>
 
+    <string name="title_create_story">Posting Cerita</string>
+    <string name="title_change_language">Ganti Bahasa</string>
+    <string name="title_close_app">Tutup Aplikasi</string>
+    <string name="title_story_detail">Detil Cerita</string>
+
 </resources>

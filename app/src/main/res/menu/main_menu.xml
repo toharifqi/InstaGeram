@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/title_create_story"
+        android:icon="@drawable/ic_baseline_logout_24"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_change_setting"
+        android:title="@string/title_change_language"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/close_app"
+        android:title="@string/title_close_app"
+        android:icon="@drawable/ic_baseline_settings_24"/>
+</menu>

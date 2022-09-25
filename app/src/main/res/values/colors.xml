@@ -5,8 +5,8 @@
     <color name="gray_dark">#8B8B8B</color>
     <color name="white">#FFFFFFFF</color>
     
-    <color name="yello_primary">#f8da4c</color>
-    <color name="yello_primary_variant">#f9e05f</color>
-    <color name="yello_secondary">#fbeb8c</color>
-    <color name="yello_secondary_variant">#fef7d2</color>
+    <color name="yellow_primary">#f8da4c</color>
+    <color name="yellow_primary_variant">#f9e05f</color>
+    <color name="yellow_secondary">#fbeb8c</color>
+    <color name="yellow_secondary_variant">#fef7d2</color>
 </resources>

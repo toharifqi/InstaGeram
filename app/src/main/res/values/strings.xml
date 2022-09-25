@@ -25,4 +25,9 @@
     <string name="text_toast_user_created">User created, please login!</string>
     <string name="text_toast_welcome">Welcome bruh!</string>
 
+    <string name="title_create_story">Post a Story</string>
+    <string name="title_change_language">Change Language</string>
+    <string name="title_close_app">Close the App</string>
+    <string name="title_story_detail">Story Detail</string>
+
 </resources>

@@ -7,6 +7,7 @@ import com.toharifqi.instageram.core.remote.RemoteModule
 import com.toharifqi.instageram.login.LoginActivity
 import com.toharifqi.instageram.register.RegisterActivity
 import com.toharifqi.instageram.register.RegisterModule
+import com.toharifqi.instageram.storylist.StoryListActivity
 import com.toharifqi.instageram.storylist.StoryListModule
 import dagger.BindsInstance
 import dagger.Component
@@ -30,4 +31,5 @@ interface AppComponent {
 
     fun inject(loginActivity: LoginActivity)
     fun inject(registerActivity: RegisterActivity)
+    fun inject(storyListActivity: StoryListActivity)
 }

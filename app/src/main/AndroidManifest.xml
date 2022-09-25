@@ -18,10 +18,18 @@
             android:exported="false"/>
         <activity
             android:name=".storydetail.StoryDetailActivity"
-            android:exported="false" />
+            android:exported="false" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".storylist.StoryListActivity" />
+        </activity>
         <activity
             android:name=".createstory.CreateStoryActivity"
-            android:exported="false" />
+            android:exported="false" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".storylist.StoryListActivity" />
+        </activity>
         <activity
             android:name=".storylist.StoryListActivity"
             android:exported="false" />

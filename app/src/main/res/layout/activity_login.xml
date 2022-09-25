@@ -44,6 +44,7 @@
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:visibility="gone"
+        android:indeterminateTint="@color/yellow_primary"
         app:layout_constraintTop_toTopOf="@id/email_edit_txt"
         app:layout_constraintBottom_toBottomOf="@id/password_edit_txt"
         app:layout_constraintLeft_toLeftOf="parent"

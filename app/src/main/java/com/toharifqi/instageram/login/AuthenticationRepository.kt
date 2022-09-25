@@ -16,8 +16,7 @@ interface AuthenticationRepository {
     suspend fun registerUser(name: String, email: String, pass: String): Flow<ResultLoad<RegisterResponse>>
     suspend fun loginUser(email: String, pass: String): Flow<ResultLoad<LoginResponse>>
     fun saveUser(name: String, token: String)
-    fun getToken(): String?
-    fun logout()
+    fun isLoggedIn(): Boolean
 }
 
 class AuthenticationRepositoryImpl(
@@ -55,6 +54,5 @@ class AuthenticationRepositoryImpl(
         sessionManager.saveToken(name, token)
     }
 
-    override fun getToken(): String? = sessionManager.getToken()
-    override fun logout() = sessionManager.clearSession()
+    override fun isLoggedIn() = sessionManager.getToken() != null
 }
