@@ -12,6 +12,7 @@
     <string name="error_text_empty">Masukan tidak boleh kosong!</string>
     <string name="text_go_to_register">Belum punya akun? <b><u>Daftar sekarang!</u></b> </string>
     <string name="text_go_to_login">Sudah punya akun? <b><u>Masuk sekarang!</u></b></string>
+    <string name="text_posted_at">Diposting pada %s</string>
 
     <string name="text_login_desc_1">Aplikasi parody Instagram nomor #99 yang pernah
         dibuat. Geser ke kiri…</string>

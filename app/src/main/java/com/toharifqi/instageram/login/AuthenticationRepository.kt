@@ -51,7 +51,7 @@ class AuthenticationRepositoryImpl(
     }.flowOn(dispatcher)
 
     override fun saveUser(name: String, token: String) {
-        sessionManager.saveToken(name, token)
+        sessionManager.saveToken(name, "Bearer $token")
     }
 
     override fun isLoggedIn() = sessionManager.getToken() != null

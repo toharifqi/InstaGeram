@@ -16,7 +16,7 @@ class StoryListViewModel(private val repository: StoryListRepository) : ViewMode
         get() = mutableToken
     private val mutableToken = MutableLiveData<String?>()
 
-    fun getAllStories(token: String?) {
+    fun loadAllStories(token: String?) {
         viewModelScope.launch {
             token?.let { token ->
                 repository.getAllStories(token).collect { stories ->

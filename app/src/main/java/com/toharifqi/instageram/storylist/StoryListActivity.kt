@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.provider.Settings
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.toharifqi.instageram.BaseApplication
 import com.toharifqi.instageram.R
@@ -23,6 +25,7 @@ class StoryListActivity : AppCompatActivity() {
     private val viewModel: StoryListViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: ActivityStoryListBinding
+    private lateinit var storyAdapter: StoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as BaseApplication).appComponent.inject(this)
@@ -31,22 +34,31 @@ class StoryListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.getToken()
+        setupRecyclerView()
         observeViewModel()
         setOnclickListener()
+    }
+
+    private fun setupRecyclerView() {
+        storyAdapter = StoryAdapter()
+        binding.recylerView.adapter = storyAdapter
     }
 
     private fun observeViewModel() {
         with(viewModel) {
             token.observe(this@StoryListActivity) {
-                viewModel.getAllStories(it)
+                binding.progressCircular.visibility = View.VISIBLE
+                viewModel.loadAllStories(it)
             }
             stories.observe(this@StoryListActivity) {
                 when(it) {
                     is Success -> {
-
+                        binding.progressCircular.visibility = View.GONE
+                        storyAdapter.submitList(it.data)
                     }
                     is Error -> {
-
+                        binding.progressCircular.visibility = View.GONE
+                        Toast.makeText(this@StoryListActivity, it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
