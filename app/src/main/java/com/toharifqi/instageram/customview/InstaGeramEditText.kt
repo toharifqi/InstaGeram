@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
@@ -45,14 +46,22 @@ class InstaGeramEditText : AppCompatEditText, View.OnTouchListener {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                if (inputType == PASSWORD_TYPE && s.count() < 6) showPasswordError()
-                else if (s.toString().isEmpty()) showEmptyError()
+                when {
+                    s.toString().isEmpty() -> showEmptyError()
+                    inputType == PASSWORD_TYPE && s.count() < 6 -> showPasswordError()
+                    inputType == EMAIL_TYPE && !Patterns.EMAIL_ADDRESS.matcher(s).matches() -> showInvalidEmailError()
+                }
 
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
             }
 
             override fun afterTextChanged(s: Editable) {}
         })
+    }
+
+    private fun showInvalidEmailError() {
+        val errorMessage = context.getString(R.string.error_invalid_email)
+        error = errorMessage
     }
 
     private fun showPasswordError() {
@@ -128,3 +137,4 @@ class InstaGeramEditText : AppCompatEditText, View.OnTouchListener {
 }
 
 private const val PASSWORD_TYPE = 0x00000081
+private const val EMAIL_TYPE = 0x00000021

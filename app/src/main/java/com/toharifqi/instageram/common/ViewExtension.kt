@@ -10,17 +10,19 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+const val TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+
 fun ImageView.setImageFromUrl(context: Context, photoUrl: String) {
     Glide
         .with(context)
         .load(photoUrl)
-        .placeholder(R.drawable.image_placeholder)
-        .error(R.drawable.image_placeholder)
+        .placeholder(R.drawable.photo_placeholder)
+        .error(R.drawable.photo_placeholder)
         .into(this)
 }
 
 fun TextView.setFormattedDate(context: Context, timestamp: String) {
-    val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+    val date = SimpleDateFormat(TIMESTAMP_FORMAT, Locale.US)
         .parse(timestamp) as Date
 
     val formattedDate = DateFormat.getDateInstance(DateFormat.DEFAULT).format(date)

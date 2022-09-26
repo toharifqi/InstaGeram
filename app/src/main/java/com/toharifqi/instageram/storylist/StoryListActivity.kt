@@ -51,14 +51,15 @@ class StoryListActivity : AppCompatActivity() {
                 viewModel.loadAllStories(it)
             }
             stories.observe(this@StoryListActivity) {
-                when(it) {
+                when (it) {
                     is Success -> {
                         binding.progressCircular.visibility = View.GONE
                         storyAdapter.submitList(it.data)
                     }
-                    is Error -> {
+                    is Error   -> {
                         binding.progressCircular.visibility = View.GONE
-                        Toast.makeText(this@StoryListActivity, it.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@StoryListActivity, it.message, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -83,8 +84,8 @@ class StoryListActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.close_app -> {
+        when (item.itemId) {
+            R.id.close_app             -> {
                 finishAffinity()
                 return true
             }
@@ -92,14 +93,14 @@ class StoryListActivity : AppCompatActivity() {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 return true
             }
-            R.id.action_logout -> {
+            R.id.action_logout         -> {
                 viewModel.logOut()
                 Intent(this, LoginActivity::class.java).run {
                     startActivity(this)
                 }
                 return true
             }
-            else -> return true
+            else                       -> return true
         }
     }
 

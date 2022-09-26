@@ -5,11 +5,16 @@
     <string name="button_login">Masuk</string>
     <string name="button_register">Daftarkan akun</string>
     <string name="button_disabled">Koreksi masukan!</string>
+    <string name="button_camera">Kamera</string>
+    <string name="button_gallery">Galeri</string>
+    <string name="button_post_story">Posting sekarang!</string>
     <string name="edit_text_name_hint">Masukkan nama Anda!</string>
     <string name="edit_text_email_hint">Masukkan email Anda!</string>
     <string name="edit_text_password_hint">Masukkan password Anda!</string>
+    <string name="edit_text_description_hint">Masukkan deskripsi cerita Anda!</string>
     <string name="error_text_password">Password tidak boleh kurang dari 6 karakter!</string>
     <string name="error_text_empty">Masukan tidak boleh kosong!</string>
+    <string name="error_invalid_email">Format email tidak sesuai!</string>
     <string name="text_go_to_register">Belum punya akun? <b><u>Daftar sekarang!</u></b> </string>
     <string name="text_go_to_login">Sudah punya akun? <b><u>Masuk sekarang!</u></b></string>
     <string name="text_posted_at">Diposting pada %s</string>
@@ -25,10 +30,13 @@
     <string name="text_toast_register_first">Silahkan daftar dulu!</string>
     <string name="text_toast_user_created">Akun berhasil dibuat, silahkan masuk!</string>
     <string name="text_toast_welcome">Selamat datang!</string>
+    <string name="text_toast_permission_not_granted">Izin tidak didapatkan!</string>
+    <string name="text_toast_story_posted">Cerita baru berhasil diposting!</string>
+    <string name="text_toast_fail_to_take_photo">Gagal mengambil foto!</string>
+    <string name="text_toast_fail_to_open_camera">Gagal membuka kamera!</string>
 
     <string name="title_create_story">Posting Cerita</string>
     <string name="title_change_language">Ganti Bahasa</string>
     <string name="title_close_app">Tutup Aplikasi</string>
-    <string name="title_story_detail">Detil Cerita</string>
-
+    <string name="title_story_detail">Cerita %s</string>
 </resources>

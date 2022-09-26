@@ -27,7 +27,7 @@ class StoryDetailActivity : AppCompatActivity() {
 
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
-            setTitle(R.string.title_create_story)
+            title = getString(R.string.title_story_detail, story.name)
         }
     }
 

@@ -5,6 +5,17 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
 }
 
+ext {
+    camerax_version = "1.1.0"
+    retrofit_version = "2.9.0"
+    okhttp_version = "4.9.1"
+    dagger_version = "2.43.2"
+    android_core_version = "1.9.0"
+    kotlin_viewmodel_version = "2.5.1"
+    kotlin_activity_version = "1.6.0"
+    appcompat_version = "1.5.1"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
