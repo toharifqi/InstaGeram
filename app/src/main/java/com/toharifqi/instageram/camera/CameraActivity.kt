@@ -1,4 +1,4 @@
-package com.toharifqi.instageram.camerax
+package com.toharifqi.instageram.camera
 
 import android.content.Intent
 import android.os.Build
@@ -68,7 +68,10 @@ class CameraActivity : AppCompatActivity() {
 
         val photoFile = createFile(application)
 
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        val metadata = ImageCapture.Metadata()
+        metadata.isReversedHorizontal = cameraSelector == CameraSelector.DEFAULT_FRONT_CAMERA
+
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).setMetadata(metadata).build()
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this@CameraActivity),

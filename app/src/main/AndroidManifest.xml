@@ -4,11 +4,13 @@
     package="com.toharifqi.instageram">
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
     <application
@@ -20,35 +22,41 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InstaGeram">
         <activity
-            android:name=".camerax.CameraActivity"
-            android:exported="false">
+            android:name=".camera.CameraActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".register.RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".storydetail.StoryDetailActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="nosensor">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".storylist.StoryListActivity" />
         </activity>
         <activity
             android:name=".createstory.CreateStoryActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="nosensor">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".storylist.StoryListActivity" />
         </activity>
         <activity
             android:name=".storylist.StoryListActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".login.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

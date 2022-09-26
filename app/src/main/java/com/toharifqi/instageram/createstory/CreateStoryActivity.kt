@@ -2,8 +2,10 @@ package com.toharifqi.instageram.createstory
 
 import android.Manifest
 import android.content.Intent
+import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -16,13 +18,22 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.toharifqi.instageram.BaseApplication
 import com.toharifqi.instageram.R
-import com.toharifqi.instageram.camerax.CameraActivity
+import com.toharifqi.instageram.camera.CameraActivity
 import com.toharifqi.instageram.common.ViewModelFactory
+import com.toharifqi.instageram.common.reduceFileImage
 import com.toharifqi.instageram.common.rotateBitmap
+import com.toharifqi.instageram.common.uriToFile
 import com.toharifqi.instageram.core.ResultLoad.Success
 import com.toharifqi.instageram.core.ResultLoad.Error
 import com.toharifqi.instageram.customview.InstaGeramEditText
 import com.toharifqi.instageram.databinding.ActivityCreateStoryBinding
+import com.toharifqi.instageram.register.RegisterActivity
+import com.toharifqi.instageram.storylist.StoryListActivity
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -35,11 +46,13 @@ class CreateStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateStoryBinding
     private var imageFile: File? = null
     private var userToken: String? = null
+    private var isBackCamera: Boolean? = null
 
     companion object {
         const val CAMERA_RESULT = 200
         const val IS_BACK_CAMERA = "is_back_camera"
         const val PHOTO_FILE = "photo_file"
+        const val FILE_TYPE = "image/*"
 
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
@@ -126,7 +139,9 @@ class CreateStoryActivity : AppCompatActivity() {
     private fun clearContent() {
         imageFile = null
         with(binding) {
+            postButton.isEnabled = false
             photoImage.setImageResource(R.drawable.photo_placeholder)
+            descriptionEditTxt.clearFocus()
             descriptionEditTxt.text?.clear()
         }
     }
@@ -150,12 +165,12 @@ class CreateStoryActivity : AppCompatActivity() {
     ) {
         if (it.resultCode == CAMERA_RESULT) {
             val myFile = it.data?.getSerializableExtra(PHOTO_FILE) as File
-            val isBackCamera = it.data?.getBooleanExtra(IS_BACK_CAMERA, true) as Boolean
+            isBackCamera = it.data?.getBooleanExtra(IS_BACK_CAMERA, true)
 
             imageFile = myFile
             val result = rotateBitmap(
                 BitmapFactory.decodeFile(imageFile?.path),
-                isBackCamera
+                isBackCamera as Boolean
             )
 
             binding.photoImage.setImageBitmap(result)
@@ -163,11 +178,41 @@ class CreateStoryActivity : AppCompatActivity() {
     }
 
     private fun openGallery() {
-        TODO("Not yet implemented")
+        Intent().run {
+            action = ACTION_GET_CONTENT
+            type = FILE_TYPE
+            val chooser = Intent.createChooser(this, "Choose a Picture")
+            launcherIntentGallery.launch(chooser)
+        }
+    }
+
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val selectedImg: Uri = result.data?.data as Uri
+
+            imageFile = uriToFile(selectedImg, this@CreateStoryActivity)
+            binding.photoImage.setImageURI(selectedImg)
+        }
     }
 
     private fun postStory() {
-        TODO("Not yet implemented")
+        binding.postButton.isEnabled = false
+        if (imageFile != null) {
+            val file = reduceFileImage(imageFile as File, isBackCamera)
+
+            val description = binding.descriptionEditTxt.text.toString().toRequestBody("text/plain".toMediaType())
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                file.name,
+                requestImageFile
+            )
+
+            binding.progressCircular.visibility = View.VISIBLE
+            viewModel.postStory(userToken, imageMultipart, description)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -193,7 +238,9 @@ class CreateStoryActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        Intent(this@CreateStoryActivity, StoryListActivity::class.java).run {
+            startActivity(this)
+        }
         return true
     }
 }

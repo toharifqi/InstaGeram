@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import com.toharifqi.instageram.BaseApplication
 import com.toharifqi.instageram.R
 import com.toharifqi.instageram.common.ViewModelFactory
@@ -26,6 +27,7 @@ class StoryListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStoryListBinding
     private lateinit var storyAdapter: StoryAdapter
+    private var userToken: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as BaseApplication).appComponent.inject(this)
@@ -36,28 +38,70 @@ class StoryListActivity : AppCompatActivity() {
         viewModel.getToken()
         setupRecyclerView()
         observeViewModel()
-        setOnclickListener()
+        setUpClickListener()
     }
 
     private fun setupRecyclerView() {
         storyAdapter = StoryAdapter()
-        binding.recylerView.adapter = storyAdapter
+        with(binding) {
+            recylerView.adapter = storyAdapter
+            swipeLayout.setOnRefreshListener {
+                viewModel.loadAllStories(userToken)
+            }
+            storyAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                override fun onChanged() {
+                    recylerView.scrollToPosition(0)
+                }
+                override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                    recylerView.scrollToPosition(0)
+                }
+                override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                    recylerView.scrollToPosition(0)
+                }
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    recylerView.scrollToPosition(0)
+                }
+                override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                    recylerView.scrollToPosition(0)
+                }
+                override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+                    recylerView.scrollToPosition(0)
+                }
+            })
+        }
+    }
+
+    private fun setEmptyViews(isVisible: Boolean) {
+        with(binding) {
+            if (isVisible) {
+                recylerView.visibility = View.GONE
+                emptyGroup.visibility = View.VISIBLE
+            } else {
+                recylerView.visibility = View.VISIBLE
+                emptyGroup.visibility = View.GONE
+            }
+        }
     }
 
     private fun observeViewModel() {
         with(viewModel) {
             token.observe(this@StoryListActivity) {
                 binding.progressCircular.visibility = View.VISIBLE
+                userToken = it
                 viewModel.loadAllStories(it)
             }
             stories.observe(this@StoryListActivity) {
                 when (it) {
                     is Success -> {
+                        setEmptyViews(false)
+                        binding.swipeLayout.isRefreshing = false
                         binding.progressCircular.visibility = View.GONE
                         storyAdapter.submitList(it.data)
                     }
                     is Error   -> {
+                        binding.swipeLayout.isRefreshing = false
                         binding.progressCircular.visibility = View.GONE
+                        setEmptyViews(true)
                         Toast.makeText(this@StoryListActivity, it.message, Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -66,7 +110,7 @@ class StoryListActivity : AppCompatActivity() {
         }
     }
 
-    private fun setOnclickListener() {
+    private fun setUpClickListener() {
         with(binding) {
             fab.setOnClickListener {
                 Intent(this@StoryListActivity, CreateStoryActivity::class.java).run {

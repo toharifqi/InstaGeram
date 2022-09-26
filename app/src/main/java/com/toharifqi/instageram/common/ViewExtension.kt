@@ -1,6 +1,7 @@
 package com.toharifqi.instageram.common
 
 import android.content.Context
+import android.text.format.DateUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -28,3 +29,21 @@ fun TextView.setFormattedDate(context: Context, timestamp: String) {
     val formattedDate = DateFormat.getDateInstance(DateFormat.DEFAULT).format(date)
     this.text = context.getString(R.string.text_posted_at, formattedDate)
 }
+
+//fun TextView.setFormattedDate(context: Context, timestamp: String) {
+//    this.text = context.getString(R.string.text_posted_at, calculateTimeAgo(timestamp))
+//}
+//
+//private fun calculateTimeAgo(timestamp: String): String {
+//    val sdf = SimpleDateFormat(TIMESTAMP_FORMAT, Locale.US)
+//
+//    try {
+//        val time = sdf.parse(timestamp)?.time as Long
+//        val now = System.currentTimeMillis()
+//        val elapsedTime = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS)
+//        return elapsedTime.toString()
+//    } catch (e: Exception) {
+//        e.printStackTrace()
+//    }
+//    return ""
+//}

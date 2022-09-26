@@ -3,10 +3,11 @@
     <string name="app_name">InstaGeram</string>
 
     <string name="button_login">Masuk</string>
+    <string name="button_relogin">Login lagi</string>
     <string name="button_register">Daftarkan akun</string>
     <string name="button_disabled">Koreksi masukan!</string>
-    <string name="button_camera">Kamera</string>
-    <string name="button_gallery">Galeri</string>
+    <string name="button_camera">Buka Kamera</string>
+    <string name="button_gallery">Buka Galeri</string>
     <string name="button_post_story">Posting sekarang!</string>
     <string name="edit_text_name_hint">Masukkan nama Anda!</string>
     <string name="edit_text_email_hint">Masukkan email Anda!</string>
@@ -18,6 +19,7 @@
     <string name="text_go_to_register">Belum punya akun? <b><u>Daftar sekarang!</u></b> </string>
     <string name="text_go_to_login">Sudah punya akun? <b><u>Masuk sekarang!</u></b></string>
     <string name="text_posted_at">Diposting pada %s</string>
+    <string name="text_empty_story">Tidak dapat memuat cerita, pastikan tehubung ke internet dan geser layar ke bawah untuk merefresh.</string>
 
     <string name="text_login_desc_1">Aplikasi parody Instagram nomor #99 yang pernah
         dibuat. Geser ke kiri…</string>
