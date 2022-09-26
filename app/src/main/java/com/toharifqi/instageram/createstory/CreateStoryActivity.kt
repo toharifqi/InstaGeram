@@ -27,7 +27,6 @@ import com.toharifqi.instageram.core.ResultLoad.Success
 import com.toharifqi.instageram.core.ResultLoad.Error
 import com.toharifqi.instageram.customview.InstaGeramEditText
 import com.toharifqi.instageram.databinding.ActivityCreateStoryBinding
-import com.toharifqi.instageram.register.RegisterActivity
 import com.toharifqi.instageram.storylist.StoryListActivity
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -124,7 +123,7 @@ class CreateStoryActivity : AppCompatActivity() {
                             getString(R.string.text_toast_story_posted),
                             Toast.LENGTH_SHORT
                         ).show()
-                        clearContent()
+                        onBackPressed()
                     }
                     is Error   -> {
                         binding.progressCircular.visibility = View.GONE
@@ -133,16 +132,6 @@ class CreateStoryActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
-    }
-
-    private fun clearContent() {
-        imageFile = null
-        with(binding) {
-            postButton.isEnabled = false
-            photoImage.setImageResource(R.drawable.photo_placeholder)
-            descriptionEditTxt.clearFocus()
-            descriptionEditTxt.text?.clear()
         }
     }
 
@@ -238,9 +227,13 @@ class CreateStoryActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
         Intent(this@CreateStoryActivity, StoryListActivity::class.java).run {
             startActivity(this)
         }
-        return true
     }
 }

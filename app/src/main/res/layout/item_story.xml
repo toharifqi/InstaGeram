@@ -1,77 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:targetApi="m">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="8dp"
+    android:elevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="12dp"
+    app:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/person_image"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_baseline_person_24"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/name_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toRightOf="@id/person_image"
-        app:layout_constraintTop_toTopOf="@id/person_image"
-        app:layout_constraintBottom_toBottomOf="@id/person_image"
-        tools:text="Joni Aloha" />
-
-    <ImageView
-        android:id="@+id/photo_image"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_txt"
-        tools:src="@color/black" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/description_txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:gravity="start"
-        android:maxLines="3"
-        android:textColor="@color/black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/photo_image"
-        tools:targetApi="o"
-        tools:text="Wow, woow, wooow... sebelumnya mimin cuma bisa bahagia ngeliat foto ini karena terasa punya sejarah yang indah. Bermula dari 2 anak SMP bernama @diwantaraanugrah dan @strider_shamir beserta temen SMP lainnya yang demen ngomik di buku mata pelajaran... kenangan indah itu ternyata terus hidup sampai sekarang. Gimana enggak, passion ngomik yang tadinya cuma corat-coret sekarang hidup kembali berkat 2 sohiban itu di pertemukan " />
+        <ImageView
+            android:id="@+id/person_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_baseline_person_24"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/date_txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/description_txt"
-        tools:text="26 Februari 2222" />
+        <TextView
+            android:id="@+id/name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toRightOf="@id/person_image"
+            app:layout_constraintTop_toTopOf="@id/person_image"
+            app:layout_constraintBottom_toBottomOf="@id/person_image"
+            tools:text="Joni Aloha" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/baseline_more_horiz_black_24"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/name_txt"
+            app:layout_constraintTop_toTopOf="@id/name_txt"/>
+
+        <ImageView
+            android:id="@+id/photo_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_txt"
+            tools:src="@color/black" />
+
+        <TextView
+            android:id="@+id/description_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/photo_image"
+            tools:targetApi="o"
+            tools:text="Wow, woow, wooow... sebelumnya mimin cuma bisa bahagia ngeliat foto ini karena terasa punya sejarah yang indah. Bermula dari 2 anak SMP bernama @diwantaraanugrah dan @strider_shamir beserta temen SMP lainnya yang demen ngomik di buku mata pelajaran... kenangan indah itu ternyata terus hidup sampai sekarang. Gimana enggak, passion ngomik yang tadinya cuma corat-coret sekarang hidup kembali berkat 2 sohiban itu di pertemukan " />
+
+        <TextView
+            android:id="@+id/date_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description_txt"
+            tools:text="26 Februari 2222" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
