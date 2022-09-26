@@ -8,8 +8,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.toharifqi.instageram.R
+import androidx.core.util.Pair
 import com.toharifqi.instageram.common.setFormattedDate
 import com.toharifqi.instageram.common.setImageFromUrl
 import com.toharifqi.instageram.databinding.ItemStoryBinding
@@ -43,11 +42,16 @@ class StoryAdapter : ListAdapter<StoryDomainData, StoryViewHolder>(StoryDomainCo
                     val optionsCompat: ActivityOptionsCompat =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(
                             context as Activity,
+                            Pair(photoImage, "photo_image"),
+                            Pair(personImage, "person_image"),
+                            Pair(nameTxt, "name_txt"),
+                            Pair(descriptionTxt, "description_txt"),
+                            Pair(dateTxt, "date_txt")
                         )
 
                     Intent(context, StoryDetailActivity::class.java).run {
                         putExtra(STORY_EXTRA, item)
-                        context.startActivity(this)
+                        context.startActivity(this, optionsCompat.toBundle())
                     }
                 }
             }
