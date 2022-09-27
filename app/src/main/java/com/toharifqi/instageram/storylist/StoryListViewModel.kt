@@ -30,5 +30,8 @@ class StoryListViewModel(private val repository: StoryListRepository) : ViewMode
         mutableToken.value = repository.getToken()
     }
 
-    fun logOut() = repository.logOut()
+    fun logOut() {
+        repository.logOut()
+        mutableToken.value = null
+    }
 }

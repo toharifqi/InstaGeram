@@ -85,10 +85,18 @@ class StoryListActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            token.observe(this@StoryListActivity) {
-                binding.progressCircular.visibility = View.VISIBLE
-                userToken = it
-                viewModel.loadAllStories(it)
+            token.observe(this@StoryListActivity) { token ->
+                if (token == null) {
+                    Intent(this@StoryListActivity, LoginActivity::class.java).run {
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(this)
+                    }
+                    finish()
+                } else {
+                    binding.progressCircular.visibility = View.VISIBLE
+                    userToken = token
+                    viewModel.loadAllStories(token)
+                }
             }
             stories.observe(this@StoryListActivity) {
                 when (it) {
@@ -139,9 +147,6 @@ class StoryListActivity : AppCompatActivity() {
             }
             R.id.action_logout         -> {
                 viewModel.logOut()
-                Intent(this, LoginActivity::class.java).run {
-                    startActivity(this)
-                }
                 return true
             }
             else                       -> return true
