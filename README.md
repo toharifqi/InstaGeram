@@ -2,7 +2,7 @@
 
 
 #### What is this?
-InstaGeram is an instagram parody app. It has similar features with Instagram. This app is created during my free time, feel free to explore an fork the repo 😉
+InstaGeram is an instagram parody app. It has similar main features with Instagram. This app was created during my free time, feel free to explore an fork the repo 😉
 
 #### Stuffs I implemented in this app
 - Clean architecture (without usecases this time)
