@@ -2,7 +2,7 @@
 
 
 #### What is this?
-InstaGeram is an instagram parody app. It has similar main features with Instagram. This app was created during my free time, feel free to explore an fork the repo 😉
+InstaGeram is an instagram parody app. It has similar basic features with Instagram. This app was created during my free time, feel free to explore an fork the repo 😉
 
 #### Stuffs I implemented in this app
 - Clean architecture (without usecases this time)
@@ -17,6 +17,8 @@ InstaGeram is an instagram parody app. It has similar main features with Instagr
 <img src="/screenshots/home.jpg" width="25%">    <img src="/screenshots/home2.jpg" width="25%">    <img src="/screenshots/story_detail.jpg" width="25%"><br>
 - Post a story that contains a picture (can be taken from your camera or gallery).<br>
 <img src="/screenshots/post_a_story.jpg" width="25%">    <img src="/screenshots/take_picture.jpg" width="25%"><br>
+- Post a story based on current location and mark the story's location on google map.<br>
+***TBD***
 
 #### Notes & Quotes (that I repeatedly stick to my uncomplete & unperfect brain)
 
