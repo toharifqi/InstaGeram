@@ -10,11 +10,6 @@ interface SessionManager {
 }
 
 class SessionManagerImpl(context: Context) : SessionManager {
-    companion object{
-        const val PREF_NAME = "instageram_pref"
-        const val KEY_TOKEN = "token"
-        const val KEY_USER_NAME = "user_name"
-    }
 
     private var pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     private var editor = pref.edit()
@@ -36,5 +31,11 @@ class SessionManagerImpl(context: Context) : SessionManager {
             clear()
             commit()
         }
+    }
+
+    companion object{
+        const val PREF_NAME = "instageram_pref"
+        const val KEY_TOKEN = "token"
+        const val KEY_USER_NAME = "user_name"
     }
 }

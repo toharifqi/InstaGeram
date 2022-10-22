@@ -6,8 +6,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.toharifqi.instageram.R
-import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -25,25 +25,14 @@ fun ImageView.setImageFromUrl(context: Context, photoUrl: String) {
 fun TextView.setFormattedDate(context: Context, timestamp: String) {
     val date = SimpleDateFormat(TIMESTAMP_FORMAT, Locale.US)
         .parse(timestamp) as Date
+    val calendar = Calendar.getInstance().apply {
+        time = date
+        add(Calendar.HOUR_OF_DAY, 7)
+    }
 
-    val formattedDate = DateFormat.getDateInstance(DateFormat.DEFAULT).format(date)
-    this.text = context.getString(R.string.text_posted_at, formattedDate)
+    var relativeTimeSpan = DateUtils.getRelativeTimeSpanString(calendar.timeInMillis)
+    if (relativeTimeSpan.contains(" 0 m")) {
+        relativeTimeSpan = context.getString(R.string.text_while_ago)
+    }
+    this.text = context.getString(R.string.text_posted_at, relativeTimeSpan)
 }
-
-//fun TextView.setFormattedDate(context: Context, timestamp: String) {
-//    this.text = context.getString(R.string.text_posted_at, calculateTimeAgo(timestamp))
-//}
-//
-//private fun calculateTimeAgo(timestamp: String): String {
-//    val sdf = SimpleDateFormat(TIMESTAMP_FORMAT, Locale.US)
-//
-//    try {
-//        val time = sdf.parse(timestamp)?.time as Long
-//        val now = System.currentTimeMillis()
-//        val elapsedTime = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS)
-//        return elapsedTime.toString()
-//    } catch (e: Exception) {
-//        e.printStackTrace()
-//    }
-//    return ""
-//}

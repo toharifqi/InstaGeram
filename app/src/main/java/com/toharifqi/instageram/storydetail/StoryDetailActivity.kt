@@ -10,10 +10,6 @@ import com.toharifqi.instageram.storylist.StoryDomainData
 
 class StoryDetailActivity : AppCompatActivity() {
 
-    companion object{
-        const val STORY_EXTRA = "story_extra"
-    }
-
     private lateinit var binding: ActivityStoryDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,5 +39,9 @@ class StoryDetailActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    companion object{
+        const val STORY_EXTRA = "story_extra"
     }
 }

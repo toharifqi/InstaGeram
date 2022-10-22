@@ -18,6 +18,7 @@
     <string name="text_go_to_register">Do not have account yet? <b><u>Register now!</u></b></string>
     <string name="text_go_to_login">Already have an account? <b><u>Login now!</u></b></string>
     <string name="text_posted_at">Posted at %s</string>
+    <string name="text_while_ago">a while ago</string>
     <string name="text_empty_story">Can\'t load stories, make sure the internet is connected and swipe down to refresh.</string>
 
     <string name="text_login_desc_1">Number #99 parody app for instagram with basic

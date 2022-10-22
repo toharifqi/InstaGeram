@@ -47,16 +47,6 @@ class CreateStoryActivity : AppCompatActivity() {
     private var userToken: String? = null
     private var isBackCamera: Boolean? = null
 
-    companion object {
-        const val CAMERA_RESULT = 200
-        const val IS_BACK_CAMERA = "is_back_camera"
-        const val PHOTO_FILE = "photo_file"
-        const val FILE_TYPE = "image/*"
-
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        private const val REQUEST_CODE_PERMISSIONS = 10
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as BaseApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
@@ -235,5 +225,15 @@ class CreateStoryActivity : AppCompatActivity() {
         Intent(this@CreateStoryActivity, StoryListActivity::class.java).run {
             startActivity(this)
         }
+    }
+
+    companion object {
+        const val CAMERA_RESULT = 200
+        const val IS_BACK_CAMERA = "is_back_camera"
+        const val PHOTO_FILE = "photo_file"
+        const val FILE_TYPE = "image/*"
+
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        private const val REQUEST_CODE_PERMISSIONS = 10
     }
 }
