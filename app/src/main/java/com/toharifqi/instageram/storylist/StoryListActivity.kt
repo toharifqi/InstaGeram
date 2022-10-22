@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.provider.Settings
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,8 @@ import com.toharifqi.instageram.core.ResultLoad.Success
 import com.toharifqi.instageram.createstory.CreateStoryActivity
 import com.toharifqi.instageram.databinding.ActivityStoryListBinding
 import com.toharifqi.instageram.login.LoginActivity
+import com.toharifqi.instageram.storymap.StoryMapActivity
+import com.toharifqi.instageram.storymap.StoryMapActivity.Companion.TOKEN_EXTRA
 import javax.inject.Inject
 
 class StoryListActivity : AppCompatActivity() {
@@ -28,6 +32,12 @@ class StoryListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoryListBinding
     private lateinit var storyAdapter: StoryAdapter
     private var userToken: String? = null
+
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim) }
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim) }
+    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim) }
+    private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim) }
+    private var isMainFabClicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as BaseApplication).appComponent.inject(this)
@@ -121,9 +131,50 @@ class StoryListActivity : AppCompatActivity() {
     private fun setUpClickListener() {
         with(binding) {
             fab.setOnClickListener {
+                onMainFabClicked()
+            }
+            fabAddStory.setOnClickListener {
                 Intent(this@StoryListActivity, CreateStoryActivity::class.java).run {
                     startActivity(this)
                 }
+            }
+            fabStoryMap.setOnClickListener {
+                Intent(this@StoryListActivity, StoryMapActivity::class.java).run {
+                    putExtra(TOKEN_EXTRA, userToken)
+                    startActivity(this)
+                }
+            }
+        }
+    }
+
+    private fun onMainFabClicked() {
+        setChildFabVisibility(isMainFabClicked)
+        setChildFabAnimation(isMainFabClicked)
+        isMainFabClicked = !isMainFabClicked
+    }
+
+    private fun setChildFabAnimation(isMainFabClicked: Boolean) {
+        with(binding) {
+            if (!isMainFabClicked) {
+                fabAddStory.startAnimation(fromBottom)
+                fabStoryMap.startAnimation(fromBottom)
+                fab.startAnimation(rotateOpen)
+            } else {
+                fabAddStory.startAnimation(toBottom)
+                fabStoryMap.startAnimation(toBottom)
+                fab.startAnimation(rotateClose)
+            }
+        }
+    }
+
+    private fun setChildFabVisibility(isMainFabClicked: Boolean) {
+        with(binding) {
+            if (!isMainFabClicked) {
+                fabAddStory.visibility = View.VISIBLE
+                fabStoryMap.visibility = View.VISIBLE
+            } else {
+                fabAddStory.visibility = View.INVISIBLE
+                fabStoryMap.visibility = View.INVISIBLE
             }
         }
     }

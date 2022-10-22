@@ -42,4 +42,11 @@
     <string name="title_change_language">Ganti Bahasa</string>
     <string name="title_close_app">Tutup Aplikasi</string>
     <string name="title_story_detail">Cerita %s</string>
+
+    <string name="title_activity_story_map">Lokasi Cerita</string>
+    <string name="map_normal_type">Mode normal</string>
+    <string name="map_satellite_type">Mode satelit</string>
+    <string name="map_terrain_type">Mode medan</string>
+    <string name="map_hybrid_type">Mode campur</string>
+
 </resources>

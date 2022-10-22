@@ -43,4 +43,10 @@
     <string name="title_close_app">Close the App</string>
     <string name="title_story_detail">%s\'s Story</string>
 
+    <string name="title_activity_story_map">Story\'s Locations</string>
+    <string name="map_normal_type">Normal mode</string>
+    <string name="map_satellite_type">Satellite mode</string>
+    <string name="map_terrain_type">Terrain mode</string>
+    <string name="map_hybrid_type">Hybrid mode</string>
+
 </resources>

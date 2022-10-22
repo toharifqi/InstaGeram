@@ -1,5 +1,6 @@
 package com.toharifqi.instageram.core.remote
 
+import com.toharifqi.instageram.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -9,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 object RemoteModule {
-    private const val BASE_URL = "https://story-api.dicoding.dev/v1/"
+    private const val BASE_URL = BuildConfig.API_BASE_URL
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
