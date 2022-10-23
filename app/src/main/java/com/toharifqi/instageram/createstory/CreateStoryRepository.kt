@@ -23,7 +23,6 @@ interface CreateStoryRepository {
 
 class CreateStoryRepositoryImpl(
     private val apiService: ApiService,
-    private val sessionManager: SessionManager,
     private val dispatcher: CoroutineDispatcher
 ) : CreateStoryRepository {
     override fun postStory(

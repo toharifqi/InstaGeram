@@ -11,10 +11,8 @@ import kotlinx.coroutines.Dispatchers
 @Module
 object CreateStoryModule {
     @Provides
-    fun provideCreateStoryRepository(
-        apiService: ApiService,
-        sessionManager: SessionManager
-    ): CreateStoryRepository = CreateStoryRepositoryImpl(apiService, sessionManager, Dispatchers.IO)
+    fun provideCreateStoryRepository(apiService: ApiService): CreateStoryRepository =
+        CreateStoryRepositoryImpl(apiService, Dispatchers.IO)
 
     @Provides
     fun provideCreateStoryViewModelFactory(
