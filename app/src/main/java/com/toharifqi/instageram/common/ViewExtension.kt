@@ -31,7 +31,7 @@ fun TextView.setFormattedDate(context: Context, timestamp: String) {
     }
 
     var relativeTimeSpan = DateUtils.getRelativeTimeSpanString(calendar.timeInMillis)
-    if (relativeTimeSpan.contains(" 0 m")) {
+    if (relativeTimeSpan[0].toString() == "0") {
         relativeTimeSpan = context.getString(R.string.text_while_ago)
     }
     this.text = context.getString(R.string.text_posted_at, relativeTimeSpan)

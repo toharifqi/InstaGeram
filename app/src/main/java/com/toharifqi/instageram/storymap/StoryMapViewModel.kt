@@ -6,17 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toharifqi.instageram.core.ResultLoad
 import com.toharifqi.instageram.storylist.StoryDomainData
-import com.toharifqi.instageram.storylist.StoryListRepository
 import kotlinx.coroutines.launch
 
-class StoryMapViewModel(private val repository: StoryListRepository) : ViewModel()  {
+class StoryMapViewModel(private val repository: StoryMapRepository) : ViewModel()  {
     val stories: LiveData<ResultLoad<List<StoryDomainData>>>
         get() = mutableStories
     private val mutableStories = MutableLiveData<ResultLoad<List<StoryDomainData>>>()
 
     fun loadAllStoriesWithLocation(token: String) {
         viewModelScope.launch {
-            repository.getAllStories(token, true).collect { stories ->
+            repository.getAllStoriesWithLocation(token).collect { stories ->
                 mutableStories.value = stories
             }
         }

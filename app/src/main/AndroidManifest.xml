@@ -23,7 +23,7 @@
         android:theme="@style/Theme.InstaGeram">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/GOOGLE_GEO_API_KEY" />
+            android:value="${MAPS_API_KEY}" />
 
         <activity
             android:name=".storymap.StoryMapActivity"

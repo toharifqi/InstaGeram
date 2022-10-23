@@ -19,7 +19,7 @@ class StoryListViewModel(private val repository: StoryListRepository) : ViewMode
     fun loadAllStories(token: String?) {
         viewModelScope.launch {
             token?.let { token ->
-                repository.getAllStories(token, false).collect { stories ->
+                repository.getAllStories(token).collect { stories ->
                     mutableStories.value = stories
                 }
             }

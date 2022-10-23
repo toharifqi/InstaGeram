@@ -19,7 +19,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField 'String', 'API_BASE_URL', '"https://story-api.dicoding.dev/v1/"'
-        resValue 'string', 'GOOGLE_GEO_API_KEY', '"AIzaSyCXeBWEFDezGc0Nt2el0ppP5ETlN20I6Dc"'
     }
 
     buildTypes {

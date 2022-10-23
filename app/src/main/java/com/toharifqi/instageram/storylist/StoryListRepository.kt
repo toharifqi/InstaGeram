@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 interface StoryListRepository {
-    fun getAllStories(token: String, isIncludeLocation: Boolean): Flow<ResultLoad<List<StoryDomainData>>>
+    fun getAllStories(token: String): Flow<ResultLoad<List<StoryDomainData>>>
     fun getToken(): String?
     fun logOut()
 }
@@ -19,10 +19,9 @@ class StoryListRepositoryImpl(
     private val sessionManager: SessionManager,
     private val dispatcher: CoroutineDispatcher
 ) : StoryListRepository {
-    override fun getAllStories(token: String, isIncludeLocation: Boolean): Flow<ResultLoad<List<StoryDomainData>>> = flow {
+    override fun getAllStories(token: String): Flow<ResultLoad<List<StoryDomainData>>> = flow {
         try {
-            val location = if (isIncludeLocation) 1 else 0
-            val response = apiService.getAllStories(token = token, location = location)
+            val response = apiService.getAllStories(token)
             if (response.error || response.stories == null) {
                 emit(ResultLoad.Error(response.message))
             } else emit(ResultLoad.Success(
