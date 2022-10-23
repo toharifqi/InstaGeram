@@ -15,9 +15,10 @@ interface CreateStoryRepository {
     fun postStory(
         token: String,
         file: MultipartBody.Part,
-        description: RequestBody
+        description: RequestBody,
+        lat: RequestBody?,
+        lng: RequestBody?
     ): Flow<ResultLoad<AddNewStoryResponse>>
-    fun getToken(): String?
 }
 
 class CreateStoryRepositoryImpl(
@@ -28,10 +29,18 @@ class CreateStoryRepositoryImpl(
     override fun postStory(
         token: String,
         file: MultipartBody.Part,
-        description: RequestBody
+        description: RequestBody,
+        lat: RequestBody?,
+        lng: RequestBody?
     ): Flow<ResultLoad<AddNewStoryResponse>> = flow {
         try {
-            val response = apiService.addNewStory(token, file, description)
+            val response = apiService.addNewStory(
+                token = token,
+                file = file,
+                description = description,
+                lat = lat,
+                lon = lng
+            )
             if (response.error) {
                 emit(ResultLoad.Error(response.message))
             } else emit(ResultLoad.Success(response))
@@ -39,6 +48,4 @@ class CreateStoryRepositoryImpl(
             emit(ResultLoad.Error(e.message))
         }
     }.flowOn(dispatcher)
-
-    override fun getToken() = sessionManager.getToken()
 }

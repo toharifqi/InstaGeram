@@ -29,7 +29,6 @@ class StoryMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityStoryMapBinding
-    private val boundsBuilder = LatLngBounds.Builder()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<StoryMapViewModel>
@@ -106,18 +105,12 @@ class StoryMapActivity : AppCompatActivity(), OnMapReadyCallback {
                         .title(story.name)
                         .snippet(story.description)
                 )
-                boundsBuilder.include(latLng)
             }
         }
 
-        val bounds: LatLngBounds = boundsBuilder.build()
+        val indonesiaCoordinate = LatLng(0.7893, 113.9213)
         mMap.animateCamera(
-            CameraUpdateFactory.newLatLngBounds(
-                bounds,
-                resources.displayMetrics.widthPixels,
-                resources.displayMetrics.heightPixels,
-                300
-            )
+            CameraUpdateFactory.newLatLngZoom(indonesiaCoordinate, -15f)
         )
     }
 

@@ -21,6 +21,7 @@
     <string name="text_posted_at">Diposting pada %s</string>
     <string name="text_while_ago">beberapa saat yang lalu</string>
     <string name="text_empty_story">Tidak dapat memuat cerita, pastikan tehubung ke internet dan geser layar ke bawah untuk merefresh.</string>
+    <string name="text_include_location">Sertakan lokasi saat ini (ya/tidak)</string>
 
     <string name="text_login_desc_1">Aplikasi parody Instagram nomor #99 yang pernah
         dibuat. Geser ke kiri…</string>
@@ -37,6 +38,7 @@
     <string name="text_toast_story_posted">Cerita baru berhasil diposting!</string>
     <string name="text_toast_fail_to_take_photo">Gagal mengambil foto!</string>
     <string name="text_toast_fail_to_open_camera">Gagal membuka kamera!</string>
+    <string name="text_toast_fail_to_get_location">Gagal mendapatkan lokasi saat ini!</string>
 
     <string name="title_create_story">Posting Cerita</string>
     <string name="title_change_language">Ganti Bahasa</string>

@@ -20,6 +20,7 @@
     <string name="text_posted_at">Posted at %s</string>
     <string name="text_while_ago">a while ago</string>
     <string name="text_empty_story">Can\'t load stories, make sure the internet is connected and swipe down to refresh.</string>
+    <string name="text_include_location">Include your current location (enable/disable)</string>
 
     <string name="text_login_desc_1">Number #99 parody app for instagram with basic
         features. Swipe left…</string>
@@ -37,6 +38,7 @@
     <string name="text_toast_story_posted">New story posted!</string>
     <string name="text_toast_fail_to_take_photo">Failed to take photo!</string>
     <string name="text_toast_fail_to_open_camera">Failed to open camera!</string>
+    <string name="text_toast_fail_to_get_location">Failed to get current location!</string>
 
     <string name="title_create_story">Post a Story</string>
     <string name="title_change_language">Change Language</string>

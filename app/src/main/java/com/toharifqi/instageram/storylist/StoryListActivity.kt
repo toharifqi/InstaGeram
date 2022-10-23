@@ -21,7 +21,6 @@ import com.toharifqi.instageram.createstory.CreateStoryActivity
 import com.toharifqi.instageram.databinding.ActivityStoryListBinding
 import com.toharifqi.instageram.login.LoginActivity
 import com.toharifqi.instageram.storymap.StoryMapActivity
-import com.toharifqi.instageram.storymap.StoryMapActivity.Companion.TOKEN_EXTRA
 import javax.inject.Inject
 
 class StoryListActivity : AppCompatActivity() {
@@ -135,12 +134,13 @@ class StoryListActivity : AppCompatActivity() {
             }
             fabAddStory.setOnClickListener {
                 Intent(this@StoryListActivity, CreateStoryActivity::class.java).run {
+                    putExtra(CreateStoryActivity.TOKEN_EXTRA, userToken)
                     startActivity(this)
                 }
             }
             fabStoryMap.setOnClickListener {
                 Intent(this@StoryListActivity, StoryMapActivity::class.java).run {
-                    putExtra(TOKEN_EXTRA, userToken)
+                    putExtra(StoryMapActivity.TOKEN_EXTRA, userToken)
                     startActivity(this)
                 }
             }

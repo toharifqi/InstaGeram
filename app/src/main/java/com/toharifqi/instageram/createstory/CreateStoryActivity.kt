@@ -5,17 +5,21 @@ import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.toharifqi.instageram.BaseApplication
 import com.toharifqi.instageram.R
 import com.toharifqi.instageram.camera.CameraActivity
@@ -23,14 +27,15 @@ import com.toharifqi.instageram.common.ViewModelFactory
 import com.toharifqi.instageram.common.reduceFileImage
 import com.toharifqi.instageram.common.rotateBitmap
 import com.toharifqi.instageram.common.uriToFile
-import com.toharifqi.instageram.core.ResultLoad.Success
 import com.toharifqi.instageram.core.ResultLoad.Error
+import com.toharifqi.instageram.core.ResultLoad.Success
 import com.toharifqi.instageram.customview.InstaGeramEditText
 import com.toharifqi.instageram.databinding.ActivityCreateStoryBinding
 import com.toharifqi.instageram.storylist.StoryListActivity
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -46,6 +51,9 @@ class CreateStoryActivity : AppCompatActivity() {
     private var imageFile: File? = null
     private var userToken: String? = null
     private var isBackCamera: Boolean? = null
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var location: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as BaseApplication).appComponent.inject(this)
@@ -68,9 +76,11 @@ class CreateStoryActivity : AppCompatActivity() {
 
         binding.postButton.isEnabled = false
 
-        viewModel.getToken()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        userToken = intent.getStringExtra(TOKEN_EXTRA) ?: ""
+
         observeViewModel()
-        setUpClickListener()
+        setUpViewsListener()
         setEditTextListener()
     }
 
@@ -101,9 +111,6 @@ class CreateStoryActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            token.observe(this@CreateStoryActivity) {
-                userToken = it
-            }
             postResult.observe(this@CreateStoryActivity) {
                 when (it) {
                     is Success -> {
@@ -125,13 +132,63 @@ class CreateStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpClickListener() {
+    private fun setUpViewsListener() {
         with(binding) {
             cameraButton.setOnClickListener { openCamera() }
             galleryButton.setOnClickListener { openGallery() }
             postButton.setOnClickListener { postStory() }
+            switchIncludeLocation.setOnCheckedChangeListener { _, isEnabled ->
+                if (isEnabled) getCurrentLocation() else location = null
+            }
         }
     }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getCurrentLocation() {
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    this.location = location
+                } else {
+                    Toast.makeText(
+                        this@CreateStoryActivity,
+                        "Location is not found. Try Again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    getCurrentLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    getCurrentLocation()
+                }
+                else -> {}
+            }
+        }
 
     private fun openCamera() {
         Intent(this@CreateStoryActivity, CameraActivity::class.java).run {
@@ -181,16 +238,32 @@ class CreateStoryActivity : AppCompatActivity() {
         if (imageFile != null) {
             val file = reduceFileImage(imageFile as File, isBackCamera)
 
-            val description = binding.descriptionEditTxt.text.toString().toRequestBody("text/plain".toMediaType())
+            val description =
+                binding.descriptionEditTxt.text.toString().toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "photo",
                 file.name,
                 requestImageFile
             )
+            var lat: RequestBody? = null
+            var lng: RequestBody? = null
+            if (location != null) {
+                lat =
+                    location?.latitude.toString().toRequestBody("text/plain".toMediaType())
+                lng =
+                    location?.longitude.toString().toRequestBody("text/plain".toMediaType())
+            }
+
 
             binding.progressCircular.visibility = View.VISIBLE
-            viewModel.postStory(userToken, imageMultipart, description)
+            viewModel.postStory(
+                userToken,
+                imageMultipart,
+                description,
+                lat,
+                lng
+            )
         }
     }
 
@@ -232,6 +305,7 @@ class CreateStoryActivity : AppCompatActivity() {
         const val IS_BACK_CAMERA = "is_back_camera"
         const val PHOTO_FILE = "photo_file"
         const val FILE_TYPE = "image/*"
+        const val TOKEN_EXTRA = "auth_token_extra"
 
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
