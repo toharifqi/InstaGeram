@@ -13,7 +13,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.toharifqi.instageram.BaseApplication
@@ -96,9 +95,17 @@ class StoryMapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setStoryMarkers(stories: List<StoryDomainData>?) {
-        stories?.forEach { story ->
+        val sortedStoryBySameLocation = stories?.sortedWith(compareBy({ it.lat }, { it.lng }))
+        var tempLatLng = LatLng(0.0, 0.0)
+        sortedStoryBySameLocation?.forEachIndexed { index, story ->
+            val locationOffset = index * COORDINATE_OFFSET
             if (story.lat != null && story.lng != null) {
-                val latLng = LatLng(story.lat, story.lng)
+                var latLng = LatLng(story.lat, story.lng)
+
+                if (tempLatLng == latLng) {
+                    latLng = LatLng(story.lat + locationOffset, story.lng + locationOffset)
+                } else tempLatLng = latLng
+
                 mMap.addMarker(
                     MarkerOptions()
                         .position(latLng)
@@ -151,5 +158,6 @@ class StoryMapActivity : AppCompatActivity(), OnMapReadyCallback {
     companion object {
         const val TOKEN_EXTRA = "auth_token_extra"
         const val TAG = "StoryMapActivity"
+        const val COORDINATE_OFFSET = 0.00002f
     }
 }
