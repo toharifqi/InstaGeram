@@ -9,6 +9,7 @@
     <string name="button_camera">Buka Kamera</string>
     <string name="button_gallery">Buka Galeri</string>
     <string name="button_post_story">Posting sekarang!</string>
+    <string name="button_retry">Try again</string>
     <string name="edit_text_name_hint">Masukkan nama Anda!</string>
     <string name="edit_text_email_hint">Masukkan email Anda!</string>
     <string name="edit_text_password_hint">Masukkan password Anda!</string>

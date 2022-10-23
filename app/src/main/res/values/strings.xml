@@ -8,6 +8,7 @@
     <string name="button_camera">Open Camera</string>
     <string name="button_gallery">Open Gallery</string>
     <string name="button_post_story">Post now!</string>
+    <string name="button_retry">Try again</string>
     <string name="edit_text_name_hint">Enter your name!</string>
     <string name="edit_text_email_hint">Enter your email!</string>
     <string name="edit_text_password_hint">Enter your password!</string>

@@ -119,7 +119,9 @@ class CreateStoryActivity : AppCompatActivity() {
                             getString(R.string.text_toast_story_posted),
                             Toast.LENGTH_SHORT
                         ).show()
-                        onBackPressed()
+                        Intent(this@CreateStoryActivity, StoryListActivity::class.java).run {
+                            startActivity(this)
+                        }
                     }
                     is Error   -> {
                         binding.progressCircular.visibility = View.GONE
@@ -291,12 +293,6 @@ class CreateStoryActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    override fun onBackPressed() {
-        Intent(this@CreateStoryActivity, StoryListActivity::class.java).run {
-            startActivity(this)
-        }
     }
 
     companion object {

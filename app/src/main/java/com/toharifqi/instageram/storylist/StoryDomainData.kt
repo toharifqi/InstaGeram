@@ -2,6 +2,7 @@ package com.toharifqi.instageram.storylist
 
 import com.toharifqi.instageram.core.remote.StoryResponse
 import android.os.Parcelable
+import com.toharifqi.instageram.core.local.StoryEntity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -22,5 +23,15 @@ data class StoryDomainData(
         createdAt = response.createdAt,
         lat = response.lat,
         lng = response.lon
+    )
+
+    constructor(storyEntity: StoryEntity) : this(
+        id = storyEntity.id,
+        name = storyEntity.name,
+        description = storyEntity.description,
+        photoUrl = storyEntity.photoUrl,
+        createdAt = storyEntity.createdAt,
+        lat = storyEntity.lat,
+        lng = storyEntity.lng
     )
 }

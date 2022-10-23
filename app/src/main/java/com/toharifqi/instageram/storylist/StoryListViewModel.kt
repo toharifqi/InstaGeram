@@ -3,14 +3,19 @@ package com.toharifqi.instageram.storylist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.toharifqi.instageram.core.ResultLoad
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
+import com.toharifqi.instageram.core.local.StoryEntity
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class StoryListViewModel(private val repository: StoryListRepository) : ViewModel() {
-    val stories: LiveData<ResultLoad<List<StoryDomainData>>>
+    val stories: LiveData<PagingData<StoryDomainData>>
         get() = mutableStories
-    private val mutableStories = MutableLiveData<ResultLoad<List<StoryDomainData>>>()
+    private val mutableStories = MutableLiveData<PagingData<StoryDomainData>>()
 
     val token: LiveData<String?>
         get() = mutableToken
@@ -18,9 +23,11 @@ class StoryListViewModel(private val repository: StoryListRepository) : ViewMode
 
     fun loadAllStories(token: String?) {
         viewModelScope.launch {
-            token?.let { token ->
-                repository.getAllStories(token).collect { stories ->
-                    mutableStories.value = stories
+            token?.let {
+                repository.getAllStories(it).map {
+                    convertPagingDataEntityToDomain(it)
+                }.cachedIn(viewModelScope).collect {
+                    mutableStories.value = it
                 }
             }
         }
@@ -34,4 +41,8 @@ class StoryListViewModel(private val repository: StoryListRepository) : ViewMode
         repository.logOut()
         mutableToken.value = null
     }
+
+    private fun convertPagingDataEntityToDomain(
+        entity: PagingData<StoryEntity>
+    ): PagingData<StoryDomainData> = entity.map { StoryDomainData(it) }
 }

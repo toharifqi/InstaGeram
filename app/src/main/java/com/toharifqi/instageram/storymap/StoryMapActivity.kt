@@ -95,7 +95,7 @@ class StoryMapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setStoryMarkers(stories: List<StoryDomainData>?) {
-        val sortedStoryBySameLocation = stories?.sortedWith(compareBy({ it.lat }, { it.lng }))
+        val sortedStoryBySameLocation = stories?.sortedWith(compareBy({ it.lat }, { it.lng }))?.reversed()
         var tempLatLng = LatLng(0.0, 0.0)
         sortedStoryBySameLocation?.forEachIndexed { index, story ->
             val locationOffset = index * COORDINATE_OFFSET

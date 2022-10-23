@@ -11,6 +11,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.toharifqi.instageram.BaseApplication
 import com.toharifqi.instageram.R
@@ -52,28 +53,38 @@ class StoryListActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         storyAdapter = StoryAdapter()
+
         with(binding) {
-            recylerView.adapter = storyAdapter
             swipeLayout.setOnRefreshListener {
                 viewModel.loadAllStories(userToken)
             }
+
+            storyAdapter.addLoadStateListener { loadState ->
+                val isAdapterFinishedLoading = loadState.source.refresh is LoadState.NotLoading
+                val isReachedEndOfPagination = loadState.append.endOfPaginationReached
+                val isStoryEmpty = storyAdapter.itemCount < 1
+                val isZeroStory = isAdapterFinishedLoading && isReachedEndOfPagination && isStoryEmpty
+                val isError = loadState.source.refresh is LoadState.Error
+
+                if (isZeroStory || isError) {
+                    binding.swipeLayout.isRefreshing = false
+                    progressCircular.visibility = View.GONE
+                    setEmptyViews(true)
+                } else {
+                    binding.swipeLayout.isRefreshing = false
+                    setEmptyViews(false)
+                    progressCircular.visibility = View.GONE
+                }
+            }
+
+            recylerView.adapter = storyAdapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    storyAdapter.retry()
+                }
+            )
+
             storyAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                override fun onChanged() {
-                    recylerView.scrollToPosition(0)
-                }
                 override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                    recylerView.scrollToPosition(0)
-                }
-                override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-                    recylerView.scrollToPosition(0)
-                }
-                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    recylerView.scrollToPosition(0)
-                }
-                override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                    recylerView.scrollToPosition(0)
-                }
-                override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
                     recylerView.scrollToPosition(0)
                 }
             })
@@ -108,21 +119,9 @@ class StoryListActivity : AppCompatActivity() {
                 }
             }
             stories.observe(this@StoryListActivity) {
-                when (it) {
-                    is Success -> {
-                        setEmptyViews(false)
-                        binding.swipeLayout.isRefreshing = false
-                        binding.progressCircular.visibility = View.GONE
-                        storyAdapter.submitList(it.data)
-                    }
-                    is Error   -> {
-                        binding.swipeLayout.isRefreshing = false
-                        binding.progressCircular.visibility = View.GONE
-                        setEmptyViews(true)
-                        Toast.makeText(this@StoryListActivity, it.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
+                val recyclerViewState = binding.recylerView.layoutManager?.onSaveInstanceState()
+                storyAdapter.submitData(lifecycle, it)
+                binding.recylerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
             }
         }
     }

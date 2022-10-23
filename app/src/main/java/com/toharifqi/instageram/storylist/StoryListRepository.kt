@@ -1,36 +1,41 @@
 package com.toharifqi.instageram.storylist
 
-import com.toharifqi.instageram.core.ResultLoad
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.toharifqi.instageram.core.SessionManager
+import com.toharifqi.instageram.core.StoryMediator
+import com.toharifqi.instageram.core.local.StoryDatabase
+import com.toharifqi.instageram.core.local.StoryEntity
 import com.toharifqi.instageram.core.remote.ApiService
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 interface StoryListRepository {
-    fun getAllStories(token: String): Flow<ResultLoad<List<StoryDomainData>>>
+    fun getAllStories(token: String): Flow<PagingData<StoryEntity>>
     fun getToken(): String?
     fun logOut()
 }
 
 class StoryListRepositoryImpl(
+    private val database: StoryDatabase,
     private val apiService: ApiService,
-    private val sessionManager: SessionManager,
-    private val dispatcher: CoroutineDispatcher
+    private val sessionManager: SessionManager
 ) : StoryListRepository {
-    override fun getAllStories(token: String): Flow<ResultLoad<List<StoryDomainData>>> = flow {
-        try {
-            val response = apiService.getAllStories(token)
-            if (response.error || response.stories == null) {
-                emit(ResultLoad.Error(response.message))
-            } else emit(ResultLoad.Success(
-                response.stories.map { StoryDomainData(it) }
-            ))
-        } catch (e: Exception) {
-            emit(ResultLoad.Error(e.message))
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAllStories(token: String): Flow<PagingData<StoryEntity>> = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+        ),
+        remoteMediator = StoryMediator(
+            database,
+            apiService,
+            token
+        ),
+        pagingSourceFactory = {
+            database.storyDao().getAllStories()
         }
-    }.flowOn(dispatcher)
+    ).flow
 
     override fun getToken() = sessionManager.getToken()
 
