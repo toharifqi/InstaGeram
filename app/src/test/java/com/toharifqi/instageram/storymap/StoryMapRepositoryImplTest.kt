@@ -47,7 +47,7 @@ class StoryMapRepositoryImplTest {
     @Test
     fun `getAllStoriesWithLocation, when API response is not error, should return Success ResultLoad with correct response`() {
         val token = "azFDAS432FDSA423oisdw"
-        val response = GetAllStoriesResponse(
+        val dummyResponse = GetAllStoriesResponse(
             false,
             "berhasil memuat stories!",
             DataDummy.generateDummyListStoryResponse()
@@ -58,14 +58,14 @@ class StoryMapRepositoryImplTest {
                 token = token,
                 location = 1,
                 size = 30
-            ) returns response
+            ) returns dummyResponse
 
             repository.getAllStoriesWithLocation(token).collect {
                 (it is ResultLoad.Success) shouldBe true
                 it.data.notNull()
-                it.data?.size shouldBe response.stories?.size
+                it.data?.size shouldBe dummyResponse.stories?.size
                 it.data?.forEachIndexed { index, storyDomainData ->
-                    storyDomainData.id shouldBe response.stories?.get(index)?.id
+                    storyDomainData.id shouldBe dummyResponse.stories?.get(index)?.id
                 }
             }
 
@@ -80,7 +80,7 @@ class StoryMapRepositoryImplTest {
     @Test
     fun `getAllStoriesWithLocation, when API response is error, should return Error ResultLoad with correct error message`() {
         val token = "azFDAS432FDSA423oisdw"
-        val response = GetAllStoriesResponse(
+        val dummyResponse = GetAllStoriesResponse(
             true,
             "gagal memuat stories!",
             null
@@ -91,11 +91,12 @@ class StoryMapRepositoryImplTest {
                 token = token,
                 location = 1,
                 size = 30
-            ) returns response
+            ) returns dummyResponse
 
             repository.getAllStoriesWithLocation(token).collect {
                 (it is ResultLoad.Error) shouldBe true
-                it.message shouldBe "gagal memuat stories!"
+                it.data shouldBe null
+                it.message shouldBe dummyResponse.message
             }
 
             apiService.verify().getAllStories(

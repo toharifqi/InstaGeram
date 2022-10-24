@@ -1,5 +1,6 @@
 package com.toharifqi.instageram.storylist
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
 import androidx.paging.map
@@ -12,10 +13,8 @@ import com.toharifqi.instageram.common.notNull
 import com.toharifqi.instageram.common.returns
 import com.toharifqi.instageram.common.shouldBe
 import com.toharifqi.instageram.common.verify
-import com.toharifqi.instageram.core.SessionManager
-import com.toharifqi.instageram.core.local.StoryDatabase
 import com.toharifqi.instageram.core.local.StoryEntity
-import com.toharifqi.instageram.core.remote.ApiService
+import com.toharifqi.instageram.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -30,51 +29,46 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class StoryListRepositoryImplTest {
+class StoryListViewModelTest {
     @get:Rule
-    val mainDispatcherRule = MainDispatcherRule()
+    val instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val mainDispatcherRules = MainDispatcherRule()
 
     @Mock
-    private lateinit var database: StoryDatabase
-
-    @Mock
-    private lateinit var apiService: ApiService
-
-    @Mock
-    private lateinit var sessionManager: SessionManager
-
-    @Mock
-    private lateinit var repositoryMock: StoryListRepository
-
     private lateinit var repository: StoryListRepository
+
+    private lateinit var viewModel: StoryListViewModel
 
     @Before
     fun setUp() {
-        repository = StoryListRepositoryImpl(database, apiService, sessionManager)
+        viewModel = StoryListViewModel(repository)
     }
 
     @After
     fun tearDown() {
-        verifyNoMoreInteractions(database, sessionManager, apiService)
+        verifyNoMoreInteractions(repository)
     }
 
     @Test
-    fun `getAllStories, when invoked, should return correct values and not null`() {
+    fun `loadAllStories, when invoked, should return correct values and not null`() {
         val token = "azFDAS432FDSA423oisdw"
         val dummyStories = DataDummy.generateDummyListStoryEntity()
         val expectedResult = flowOf(StoryPagingSource.snapshot(dummyStories))
 
         runTest {
-            repositoryMock.getAllStories(token) returns expectedResult
+            repository.getAllStories(token) returns expectedResult
 
-            repositoryMock.getAllStories(token).collect {
+            viewModel.loadAllStories(token)
+            viewModel.stories.getOrAwaitValue().also {
                 val differ = AsyncPagingDataDiffer(
                     diffCallback = StoryAdapter.DIFF_CALLBACK,
                     updateCallback = noopListUpdateCallback,
                     workerDispatcher = Dispatchers.Main
                 )
 
-                differ.submitData(convertPagingDataEntityToDomain(it))
+                differ.submitData(it)
 
                 differ.run {
                     snapshot().notNull()
@@ -84,26 +78,37 @@ class StoryListRepositoryImplTest {
                     }
                 }
             }
+            repository.verify().getAllStories(token)
         }
     }
 
     @Test
-    fun `getToken, when invoked, should invoke sessionManager`() {
+    fun `getToken, when invoked, should invoke repository and return correct value`() {
         val token = "azFDAS432FDSA423oisdw"
 
-        sessionManager.getToken() returns token
+        repository.getToken() returns token
 
-        repository.getToken() shouldBe token
-        sessionManager.verify().getToken()
+        viewModel.getToken()
+        viewModel.token.getOrAwaitValue() shouldBe token
+        repository.verify().getToken()
     }
 
     @Test
-    fun `logOut, when invoked, should invoke sessionManager`() {
-        repository.logOut()
-        sessionManager.verify().clearSession()
+    fun `logOut, when invoked, should invoke repository and clear token`() {
+        val token = "azFDAS432FDSA423oisdw"
+
+        repository.getToken() returns token
+
+        viewModel.getToken()
+        viewModel.token.getOrAwaitValue() shouldBe token
+        repository.verify().getToken()
+
+        viewModel.logOut()
+        viewModel.token.getOrAwaitValue() shouldBe null
+        repository.verify().logOut()
     }
 
-    private val noopListUpdateCallback = object : ListUpdateCallback {
+    val noopListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {}
 
         override fun onRemoved(position: Int, count: Int) {}
@@ -116,5 +121,4 @@ class StoryListRepositoryImplTest {
     private fun convertPagingDataEntityToDomain(
         entity: PagingData<StoryEntity>
     ): PagingData<StoryDomainData> = entity.map { StoryDomainData(it) }
-
 }

@@ -12,7 +12,6 @@ import com.toharifqi.instageram.core.remote.LoginResponse
 import com.toharifqi.instageram.core.remote.LoginResult
 import com.toharifqi.instageram.core.remote.RegisterResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -54,18 +53,18 @@ class AuthenticationRepositoryImplTest {
         val name = "Joni"
         val email = "joni34@googoo.com"
         val password = "passwordrumit123"
-        val registerResponse = RegisterResponse(false, "berhasil daftar!")
+        val dummyResponse = RegisterResponse(false, "berhasil daftar!")
 
         runTest {
             apiService.register(
                 name,
                 email,
                 password,
-            ) returns registerResponse
+            ) returns dummyResponse
             repository.registerUser(name, email, password).collect {
                 (it is ResultLoad.Success) shouldBe true
                 it.data?.error shouldBe false
-                it.data?.message shouldBe "berhasil daftar!"
+                it.data?.message shouldBe dummyResponse.message
             }
 
             apiService.verify().register(name, email, password)
@@ -77,18 +76,19 @@ class AuthenticationRepositoryImplTest {
         val name = "Joni"
         val email = "joni34@googoo.com"
         val password = "passw"
-        val registerResponse = RegisterResponse(true, "password kurang dari 6 karakter!")
+        val dummyResponse = RegisterResponse(true, "password kurang dari 6 karakter!")
 
         runTest {
             apiService.register(
                 name,
                 email,
                 password,
-            ) returns registerResponse
+            ) returns dummyResponse
 
             repository.registerUser(name, email, password).collect {
                 (it is ResultLoad.Error) shouldBe true
-                it.message shouldBe "password kurang dari 6 karakter!"
+                it.data shouldBe null
+                it.message shouldBe dummyResponse.message
             }
 
             apiService.verify().register(name, email, password)
@@ -100,15 +100,15 @@ class AuthenticationRepositoryImplTest {
         val email = "joni34@googoo.com"
         val password = "passwordrumit123"
         val loginResult = LoginResult("u34213", "Joni", "azFDAS432FDSA423oisdw")
-        val loginResponse = LoginResponse(false, "berhasil login!", loginResult)
+        val dummyResponse = LoginResponse(false, "berhasil login!", loginResult)
 
         runTest {
-            apiService.login(email, password) returns loginResponse
+            apiService.login(email, password) returns dummyResponse
 
             repository.loginUser(email, password).collect {
                 (it is ResultLoad.Success) shouldBe true
                 it.data?.error shouldBe false
-                it.data?.message shouldBe "berhasil login!"
+                it.data?.message shouldBe dummyResponse.message
                 it.data?.loginResult?.userId shouldBe loginResult.userId
                 it.data?.loginResult?.name shouldBe loginResult.name
                 it.data?.loginResult?.token shouldBe loginResult.token
@@ -123,14 +123,15 @@ class AuthenticationRepositoryImplTest {
         val email = "joni34@googoo.com"
         val password = "passwordrumit123"
         val loginResult = LoginResult("u34213", "Joni", "azFDAS432FDSA423oisdw")
-        val loginResponse = LoginResponse(true, "gagal login!", loginResult)
+        val dummyResponse = LoginResponse(true, "gagal login!", loginResult)
 
         runTest {
-            apiService.login(email, password) returns loginResponse
+            apiService.login(email, password) returns dummyResponse
 
             repository.loginUser(email, password).collect {
                 (it is ResultLoad.Error) shouldBe true
-                it.message shouldBe "gagal login!"
+                it.data shouldBe null
+                it.message shouldBe dummyResponse.message
             }
 
             apiService.verify().login(email, password)

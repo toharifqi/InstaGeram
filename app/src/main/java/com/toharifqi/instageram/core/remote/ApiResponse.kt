@@ -24,7 +24,7 @@ data class LoginResult(
     @field:SerializedName("name")
     val name: String,
     @field:SerializedName("token")
-    val token: String,
+    val token: String
 )
 
 data class AddNewStoryResponse(
@@ -57,5 +57,5 @@ data class StoryResponse(
     @field:SerializedName("lat")
     val lat: Double?,
     @field:SerializedName("lon")
-    val lon: Double?,
+    val lon: Double?
 )

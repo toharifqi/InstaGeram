@@ -1,5 +1,6 @@
 package com.toharifqi.instageram.createstory
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.toharifqi.instageram.DataDummy
 import com.toharifqi.instageram.MainDispatcherRule
@@ -8,9 +9,9 @@ import com.toharifqi.instageram.common.shouldBe
 import com.toharifqi.instageram.common.verify
 import com.toharifqi.instageram.core.ResultLoad
 import com.toharifqi.instageram.core.remote.AddNewStoryResponse
-import com.toharifqi.instageram.core.remote.ApiService
+import com.toharifqi.instageram.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -22,55 +23,60 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class CreateStoryRepositoryImplTest {
+class CreateStoryViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @Mock
-    private lateinit var apiService: ApiService
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val testCoroutineDispatcher = UnconfinedTestDispatcher()
+    @Mock
     private lateinit var repository: CreateStoryRepository
+
+    private lateinit var viewModel: CreateStoryViewModel
 
     @Before
     fun setUp() {
-        repository = CreateStoryRepositoryImpl(apiService, testCoroutineDispatcher)
+        viewModel = CreateStoryViewModel(repository)
     }
 
     @After
     fun tearDown() {
-        verifyNoMoreInteractions(apiService)
+        verifyNoMoreInteractions(repository)
     }
 
     @Test
-    fun `postStory, when API response is not error, should return Success ResultLoad with correct response`() {
+    fun `postStory, when upload is successful, should return Success ResultLoad with correct upload result`() {
         val token = "azFDAS432FDSA423oisdw"
         val dummyMultipart = DataDummy.generateDummyMultipartFile()
         val dummyDescription = DataDummy.generateDummyRequestBody()
-        val dummyResponse = AddNewStoryResponse(false, "story uploaded!")
+        val expectedResult =
+            flowOf(ResultLoad.Success(AddNewStoryResponse(false, "story uploaded!")))
 
         runTest {
-            apiService.addNewStory(
-                token,
-                dummyMultipart,
-                dummyDescription,
-                null,
-                null
-            ) returns dummyResponse
-
             repository.postStory(
                 token,
                 dummyMultipart,
                 dummyDescription,
                 null,
                 null
-            ).collect {
+            ) returns expectedResult
+
+            viewModel.postStory(
+                token,
+                dummyMultipart,
+                dummyDescription,
+                null,
+                null
+            )
+
+            viewModel.postResult.getOrAwaitValue().also {
                 (it is ResultLoad.Success) shouldBe true
                 it.data?.error shouldBe false
-                it.data?.message shouldBe dummyResponse.message
+                it.data?.message shouldBe "story uploaded!"
             }
 
-            apiService.verify().addNewStory(
+            repository.verify().postStory(
                 token,
                 dummyMultipart,
                 dummyDescription,
@@ -81,33 +87,36 @@ class CreateStoryRepositoryImplTest {
     }
 
     @Test
-    fun `postStory, when API response not error, should return Error ResultLoad with correct error message`() {
+    fun `postStory, when upload is unsuccessful, should return Error ResultLoad with correct error message`() {
         val token = "azFDAS432FDSA423oisdw"
         val dummyMultipart = DataDummy.generateDummyMultipartFile()
         val dummyDescription = DataDummy.generateDummyRequestBody()
-        val dummyResponse = AddNewStoryResponse(true, "uploading failed!")
+        val expectedResult =
+            flowOf(ResultLoad.Error<AddNewStoryResponse>("file is too large!"))
 
         runTest {
-            apiService.addNewStory(
-                token,
-                dummyMultipart,
-                dummyDescription,
-                null,
-                null
-            ) returns dummyResponse
-
             repository.postStory(
                 token,
                 dummyMultipart,
                 dummyDescription,
                 null,
                 null
-            ).collect {
+            ) returns expectedResult
+
+            viewModel.postStory(
+                token,
+                dummyMultipart,
+                dummyDescription,
+                null,
+                null
+            )
+
+            viewModel.postResult.getOrAwaitValue().also {
                 (it is ResultLoad.Error) shouldBe true
-                it.message shouldBe "uploading failed!"
+                it.message shouldBe "file is too large!"
             }
 
-            apiService.verify().addNewStory(
+            repository.verify().postStory(
                 token,
                 dummyMultipart,
                 dummyDescription,

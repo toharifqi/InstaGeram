@@ -1,0 +1,65 @@
+[REPOSITORIES]
+
+AuthenticationRepository.kt
+	1. Ketika user berhasil register
+		- memastikan result berupa ResultLoad.Success
+		- memastikan AddNewStoryResponse.error bernilai false
+		- memastikan response message sama dengan dummyResponse.message
+	2. Ketika user gagal register
+		- memastikan result berupa ResultLoad.Error
+		- memastikan data yang didapat berupa null
+		- memastikan error message sama dengan dummyResponse.message
+	3. Ketika user berhasil login
+		- memastikan result berupa ResultLoad.Success
+		- memastikan AddNewStoryResponse.error bernilai false
+		- memastikan response message sama dengan dummyResponse.message
+		- memastikan userId yang didapat sama dengan dummy userId
+		- memastikan name yang didapat sama dengan dummy name
+		- memastikan token yang didapat sama dengan dummy token
+	4. Ketika user gagal login
+		- memastikan result berupa ResultLoad.Error
+		- memastikan data yang didapat berupa null
+		- memastikan error message sama dengan dummyResponse.message
+	5. Ketika app menyimpan user
+		- memastikan sessionManager terpanggil untuk menyimpan token berdasarkan nama user
+	6. Ketika token ada dan app memeriksa apakah sedang login
+		- memastikan hasil kembalian berupa true
+		- memastikan sessionManager terpanggil untuk mengambil token
+	7. Ketika token tidak ada dan app memeriksa apakah sedang login
+		- memastikan hasil kembalian berupa false
+		- memastikan sessionManager terpanggil untuk mengambil token
+
+CreateStoryRepository.kt
+	1. Ketika berhasil melakukan upload
+		- memastikan result berupa ResultLoad.Success
+		- memastikan AddNewStoryResponse.error bernilai false
+		- memastikan response message sama dengan dummyResponse.message
+	2. Ketika gagal melakukan upload
+		- memastikan result berupa ResultLoad.Error
+		- memastikan error message sama dengan dummyResponse.message
+
+StoryListRepository.kt
+	1. Ketika berhasil mendapatkan data Story
+		- memastikan data tidak null
+		- memastikan jumlah story sama dengan data dummy
+		- memastikan setiap id dari story yang dikembalikan sama dengan setiap id pada data dummy
+	2. Ketika app mengambil token
+		- memastikan token yang dikembalikan sama dengan dummy token
+		- memastikan sessionManager terpanggil untuk mengambil token
+	3. Ketika user melakukan log out
+		- memastikan sessionManager terpanggil untuk melakukan clear session/menghapus token
+
+StoryMapRepository.kt
+	1. Ketika berhasil mendapatkan data Story dengan lokasi
+		- memastikan result berupa ResultLoad.Success
+		- memastikan data Story yang dikembalikan tidak null
+		- memastikan jumlah data Story yang dikembalikan sama dengan jumlah data dari dummy response
+		- memastikan setiap id dari story yang dikembalikan sama dengan setiap id pada data dummy
+	2. Ketika gagal mendapatkan data Story dengan lokasi
+		- memastikan result berupa ResultLoad.Error
+		- memastikan data yang didapat berupa null
+		- memastikan error message sama dengan dummyResponse.message
+
+[VIEWMODELS]
+
+
