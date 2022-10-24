@@ -173,6 +173,7 @@ class CreateStoryActivity : AppCompatActivity() {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 )
             )
+            binding.switchIncludeLocation.isChecked = false
         }
     }
 

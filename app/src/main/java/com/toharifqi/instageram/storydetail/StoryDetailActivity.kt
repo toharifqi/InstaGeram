@@ -1,7 +1,7 @@
 package com.toharifqi.instageram.storydetail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.toharifqi.instageram.R
 import com.toharifqi.instageram.common.setFormattedDate
 import com.toharifqi.instageram.common.setImageFromUrl

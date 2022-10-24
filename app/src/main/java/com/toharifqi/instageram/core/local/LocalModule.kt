@@ -3,7 +3,6 @@ package com.toharifqi.instageram.core.local
 import android.content.Context
 import com.toharifqi.instageram.core.SessionManager
 import com.toharifqi.instageram.core.SessionManagerImpl
-import com.toharifqi.instageram.core.local.StoryDatabase.Companion
 import dagger.Module
 import dagger.Provides
 

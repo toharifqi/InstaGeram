@@ -79,6 +79,7 @@ class StoryMapViewModelTest {
             viewModel.loadAllStoriesWithLocation(token)
             viewModel.stories.getOrAwaitValue().also {
                 (it is ResultLoad.Error) shouldBe true
+                it.data shouldBe null
                 it.message shouldBe "gagal memuat stories!"
             }
             repository.verify().getAllStoriesWithLocation(token)

@@ -5,10 +5,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import androidx.core.util.Pair
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.toharifqi.instageram.common.setFormattedDate
 import com.toharifqi.instageram.common.setImageFromUrl
 import com.toharifqi.instageram.databinding.ItemStoryBinding

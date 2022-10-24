@@ -1,7 +1,6 @@
 package com.toharifqi.instageram.customview
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.text.Editable

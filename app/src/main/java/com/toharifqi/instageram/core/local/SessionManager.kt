@@ -1,7 +1,6 @@
 package com.toharifqi.instageram.core
 
 import android.content.Context
-import kotlinx.coroutines.flow.Flow
 
 interface SessionManager {
     fun getToken(): String?

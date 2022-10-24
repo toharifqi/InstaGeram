@@ -1,9 +1,9 @@
 package com.toharifqi.instageram.storylist
 
-import com.toharifqi.instageram.core.remote.StoryResponse
 import android.os.Parcelable
 import com.toharifqi.instageram.core.local.StoryEntity
-import kotlinx.android.parcel.Parcelize
+import com.toharifqi.instageram.core.remote.StoryResponse
+import kotlinx.android.parcel.*
 
 @Parcelize
 data class StoryDomainData(

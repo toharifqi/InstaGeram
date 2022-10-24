@@ -7,7 +7,6 @@ import com.toharifqi.instageram.core.local.StoryDatabase
 import com.toharifqi.instageram.core.remote.ApiService
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.Dispatchers
 
 @Module
 object StoryListModule {

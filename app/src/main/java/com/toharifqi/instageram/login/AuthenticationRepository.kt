@@ -1,16 +1,14 @@
 package com.toharifqi.instageram.login
 
 import com.toharifqi.instageram.core.ResultLoad
-import com.toharifqi.instageram.core.remote.ApiService
 import com.toharifqi.instageram.core.SessionManager
+import com.toharifqi.instageram.core.remote.ApiService
 import com.toharifqi.instageram.core.remote.LoginResponse
 import com.toharifqi.instageram.core.remote.RegisterResponse
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.lang.Exception
 
 interface AuthenticationRepository {
     suspend fun registerUser(name: String, email: String, pass: String): Flow<ResultLoad<RegisterResponse>>

@@ -113,6 +113,7 @@ class CreateStoryViewModelTest {
 
             viewModel.postResult.getOrAwaitValue().also {
                 (it is ResultLoad.Error) shouldBe true
+                it.data shouldBe null
                 it.message shouldBe "file is too large!"
             }
 

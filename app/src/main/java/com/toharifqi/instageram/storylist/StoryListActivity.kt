@@ -1,23 +1,20 @@
 package com.toharifqi.instageram.storylist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.provider.Settings
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.toharifqi.instageram.BaseApplication
 import com.toharifqi.instageram.R
 import com.toharifqi.instageram.common.ViewModelFactory
-import com.toharifqi.instageram.core.ResultLoad.Error
-import com.toharifqi.instageram.core.ResultLoad.Success
 import com.toharifqi.instageram.createstory.CreateStoryActivity
 import com.toharifqi.instageram.databinding.ActivityStoryListBinding
 import com.toharifqi.instageram.login.LoginActivity

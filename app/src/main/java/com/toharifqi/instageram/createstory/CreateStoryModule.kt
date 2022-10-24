@@ -2,7 +2,6 @@ package com.toharifqi.instageram.createstory
 
 import com.toharifqi.instageram.common.ViewModelFactory
 import com.toharifqi.instageram.common.factory
-import com.toharifqi.instageram.core.SessionManager
 import com.toharifqi.instageram.core.remote.ApiService
 import dagger.Module
 import dagger.Provides

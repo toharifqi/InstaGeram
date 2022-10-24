@@ -23,7 +23,7 @@ class StoryMapRepositoryImpl(
             val response = apiService.getAllStories(
                 token = token,
                 location = 1,
-                size = 30
+                size = 100
             )
             if (response.error || response.stories == null) {
                 emit(Error(response.message))

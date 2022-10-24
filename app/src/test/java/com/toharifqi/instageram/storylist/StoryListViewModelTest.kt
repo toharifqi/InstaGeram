@@ -2,8 +2,6 @@ package com.toharifqi.instageram.storylist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.AsyncPagingDataDiffer
-import androidx.paging.PagingData
-import androidx.paging.map
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.toharifqi.instageram.DataDummy
@@ -13,7 +11,6 @@ import com.toharifqi.instageram.common.notNull
 import com.toharifqi.instageram.common.returns
 import com.toharifqi.instageram.common.shouldBe
 import com.toharifqi.instageram.common.verify
-import com.toharifqi.instageram.core.local.StoryEntity
 import com.toharifqi.instageram.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -117,8 +114,4 @@ class StoryListViewModelTest {
 
         override fun onChanged(position: Int, count: Int, payload: Any?) {}
     }
-
-    private fun convertPagingDataEntityToDomain(
-        entity: PagingData<StoryEntity>
-    ): PagingData<StoryDomainData> = entity.map { StoryDomainData(it) }
 }

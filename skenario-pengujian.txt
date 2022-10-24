@@ -5,10 +5,12 @@ AuthenticationRepository.kt
 		- memastikan result berupa ResultLoad.Success
 		- memastikan AddNewStoryResponse.error bernilai false
 		- memastikan response message sama dengan dummyResponse.message
+		- memastikan ApiService terpanggil untuk melakukan register
 	2. Ketika user gagal register
 		- memastikan result berupa ResultLoad.Error
 		- memastikan data yang didapat berupa null
 		- memastikan error message sama dengan dummyResponse.message
+		- memastikan ApiService terpanggil untuk melakukan register
 	3. Ketika user berhasil login
 		- memastikan result berupa ResultLoad.Success
 		- memastikan AddNewStoryResponse.error bernilai false
@@ -16,10 +18,12 @@ AuthenticationRepository.kt
 		- memastikan userId yang didapat sama dengan dummy userId
 		- memastikan name yang didapat sama dengan dummy name
 		- memastikan token yang didapat sama dengan dummy token
+		- memastikan ApiService terpanggil untuk melakukan login
 	4. Ketika user gagal login
 		- memastikan result berupa ResultLoad.Error
 		- memastikan data yang didapat berupa null
 		- memastikan error message sama dengan dummyResponse.message
+		- memastikan ApiService terpanggil untuk melakukan login
 	5. Ketika app menyimpan user
 		- memastikan sessionManager terpanggil untuk menyimpan token berdasarkan nama user
 	6. Ketika token ada dan app memeriksa apakah sedang login
@@ -34,9 +38,12 @@ CreateStoryRepository.kt
 		- memastikan result berupa ResultLoad.Success
 		- memastikan AddNewStoryResponse.error bernilai false
 		- memastikan response message sama dengan dummyResponse.message
+		- memastikan ApiService terpanggil untuk melakukan upload file
 	2. Ketika gagal melakukan upload
 		- memastikan result berupa ResultLoad.Error
+		- memastikan data yang didapat berupa null
 		- memastikan error message sama dengan dummyResponse.message
+		- memastikan ApiService terpanggil untuk melakukan upload file
 
 StoryListRepository.kt
 	1. Ketika berhasil mendapatkan data Story
@@ -55,11 +62,84 @@ StoryMapRepository.kt
 		- memastikan data Story yang dikembalikan tidak null
 		- memastikan jumlah data Story yang dikembalikan sama dengan jumlah data dari dummy response
 		- memastikan setiap id dari story yang dikembalikan sama dengan setiap id pada data dummy
+		- memastikan ApiService terpanggil untuk mengambil data story dari API
 	2. Ketika gagal mendapatkan data Story dengan lokasi
 		- memastikan result berupa ResultLoad.Error
 		- memastikan data yang didapat berupa null
 		- memastikan error message sama dengan dummyResponse.message
+		- memastikan ApiService terpanggil untuk mengambil data story dari API
 
 [VIEWMODELS]
 
+CreateStoryViewModel.kt
+	1. Ketika berhasil melakukan upload
+		- memastikan result berupa ResultLoad.Success
+		- memastikan AddNewStoryResponse.error bernilai false
+		- memastikan response message sama dengan dummy message yang telah ditentukan
+		- memastikan repository terpanggil untuk melakukan upload
+	2. Ketika gagal melakukan upload
+		- memastikan result berupa ResultLoad.Error
+		- memastikan data yang didapat berupa null
+		- memastikan error message sama dengan dummy message yang telah ditentukan
+		- memastikan repository terpanggil untuk melakukan upload
 
+LoginViewModel.kt
+	1. Ketika user berhasil login
+		- memastikan result berupa ResultLoad.Success
+		- memastikan AddNewStoryResponse.error bernilai false
+		- memastikan response message sama dengan dummy message yang telah ditentukan
+		- memastikan userId yang didapat sama dengan dummy userId
+		- memastikan name yang didapat sama dengan dummy name
+		- memastikan token yang didapat sama dengan dummy token
+		- memastikan repository terpanggil untuk melakukan login
+	2. Ketika user gagal login
+		- memastikan result berupa ResultLoad.Error
+		- memastikan data yang didapat berupa null
+		- memastikan error message sama dengan dummy message yang telah ditentukan
+		- memastikan repository terpanggil untuk melakukan login
+	3. Ketika app menyimpan user
+		- memastikan repository terpanggil untuk menyimpan token berdasarkan nama user
+	4. Ketika app memeriksa apakah sedang login
+		- memastikan hasil kembalian berupa true ketika repository berhasil mengembalikan token
+		- memastikan hasil kembalian berupa false ketika repository tidak mengembalikan token
+		- memastikan repository terpanggil untuk mengambil token
+
+RegisterViewModel.kt
+	1. Ketika user berhasil register
+		- memastikan result berupa ResultLoad.Success
+		- memastikan AddNewStoryResponse.error bernilai false
+		- memastikan response message sama dengan dummy message yang telah ditentukan
+		- memastikan repository terpanggil untuk melakukan register
+	2. Ketika user gagal register
+		- memastikan result berupa ResultLoad.Error
+		- memastikan data yang didapat berupa null
+		- memastikan error message sama dengan dummy message yang telah ditentukan
+		- memastikan repository terpanggil untuk melakukan register
+
+StoryListViewModel.kt
+	1. Ketika berhasil mendapatkan data Story
+		- memastikan data tidak null
+		- memastikan jumlah story sama dengan data dummy
+		- memastikan setiap id dari story yang dikembalikan sama dengan setiap id pada data dummy
+		- memastikan repository terpanggil untuk mengambil data dari Room
+	2. Ketika app mengambil token
+		- memastikan token yang dikembalikan sama dengan dummy token
+		- memastikan repository terpanggil untuk mengambil token
+	3. Ketika user melakukan log out
+		- memastikan token yang dikembalikan sama dengan dummy token
+		- memastikan repository terpanggil untuk mengambil token
+		- memastikan token berupa null setelah melakukan log out
+		- memastikan repository terpanggil untuk melakukan clear session/menghapus token
+
+StoryMapViewModel.kt
+	1. Ketika berhasil mendapatkan data Story dengan lokasi
+		- memastikan result berupa ResultLoad.Success
+		- memastikan data Story yang dikembalikan tidak null
+		- memastikan jumlah data Story yang dikembalikan sama dengan jumlah data dari dummy response
+		- memastikan setiap id dari story yang dikembalikan sama dengan setiap id pada data dummy
+		- memastikan repository terpanggil untuk mengambil data story
+	2. Ketika gagal mendapatkan data Story dengan lokasi
+		- memastikan result berupa ResultLoad.Error
+		- memastikan data yang didapat berupa null
+		- memastikan error message sama dengan dummy message yang telah ditentukan
+		- memastikan repository terpanggil untuk mengambil data story

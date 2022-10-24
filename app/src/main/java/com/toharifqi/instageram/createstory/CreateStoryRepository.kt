@@ -1,15 +1,14 @@
 package com.toharifqi.instageram.createstory
 
 import com.toharifqi.instageram.core.ResultLoad
-import com.toharifqi.instageram.core.SessionManager
 import com.toharifqi.instageram.core.remote.AddNewStoryResponse
 import com.toharifqi.instageram.core.remote.ApiService
 import kotlinx.coroutines.CoroutineDispatcher
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface CreateStoryRepository {
     fun postStory(

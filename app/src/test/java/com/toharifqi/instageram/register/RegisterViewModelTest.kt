@@ -11,7 +11,6 @@ import com.toharifqi.instageram.core.remote.RegisterResponse
 import com.toharifqi.instageram.getOrAwaitValue
 import com.toharifqi.instageram.login.AuthenticationRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -81,6 +80,7 @@ class RegisterViewModelTest {
 
             viewModel.registerResult.getOrAwaitValue().also {
                 (it is ResultLoad.Error) shouldBe true
+                it.data shouldBe null
                 it.message shouldBe "email sudah terlanjur terdaftar!"
             }
             authenticationRepository.verify().registerUser(name, email, password)

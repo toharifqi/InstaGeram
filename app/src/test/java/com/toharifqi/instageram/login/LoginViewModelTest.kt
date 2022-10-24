@@ -87,6 +87,7 @@ class LoginViewModelTest {
 
             viewModel.loginResult.getOrAwaitValue().also {
                 (it is ResultLoad.Error) shouldBe true
+                it.data shouldBe null
                 it.message shouldBe "email belum terdaftar!"
             }
             authenticationRepository.verify().loginUser(email, password)
