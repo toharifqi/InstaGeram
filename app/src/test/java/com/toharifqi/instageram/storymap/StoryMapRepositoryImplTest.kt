@@ -57,7 +57,7 @@ class StoryMapRepositoryImplTest {
             apiService.getAllStories(
                 token = token,
                 location = 1,
-                size = 30
+                size = 100
             ) returns dummyResponse
 
             repository.getAllStoriesWithLocation(token).collect {
@@ -72,7 +72,7 @@ class StoryMapRepositoryImplTest {
             apiService.verify().getAllStories(
                 token = token,
                 location = 1,
-                size = 30
+                size = 100
             )
         }
     }
@@ -90,7 +90,7 @@ class StoryMapRepositoryImplTest {
             apiService.getAllStories(
                 token = token,
                 location = 1,
-                size = 30
+                size = 100
             ) returns dummyResponse
 
             repository.getAllStoriesWithLocation(token).collect {
@@ -102,7 +102,7 @@ class StoryMapRepositoryImplTest {
             apiService.verify().getAllStories(
                 token = token,
                 location = 1,
-                size = 30
+                size = 100
             )
         }
     }
